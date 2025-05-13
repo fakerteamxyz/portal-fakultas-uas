@@ -28,13 +28,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
         $role = auth()->user()->role;
-        return redirect()->intended(match ($role) {
-            'admin' => route('admin.dashboard'),
-            'dosen' => route('dosen.dashboard'),
-            'staff' => route('staff.dashboard'),
-            'mahasiswa' => route('mahasiswa.landing'),
-            default => '/',
-        });
+        return match ($role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'dosen' => redirect()->route('dosen.dashboard'),
+            'staff' => redirect()->route('staff.dashboard'),
+            'mahasiswa' => redirect()->route('mahasiswa.landing'),
+            default => redirect('/'),
+        };
     }
 
     /**
