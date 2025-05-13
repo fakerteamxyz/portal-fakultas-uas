@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
             'admin' => redirect()->route('admin.dashboard'),
             'dosen' => redirect()->route('dosen.dashboard'),
             'staff' => redirect()->route('staff.dashboard'),
-            'mahasiswa' => redirect()->route('mahasiswa.landing'),
+            'mahasiswa' => redirect('/'), // Redirect mahasiswa to welcome page
             default => redirect('/'),
         };
     }

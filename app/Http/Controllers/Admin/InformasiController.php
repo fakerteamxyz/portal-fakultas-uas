@@ -36,14 +36,14 @@ class InformasiController extends Controller
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         $data = [
             'user_id' => Auth::id(),
             'judul' => $request->judul,
             'konten' => $request->konten,
             'is_published' => $request->has('is_published'),
         ];
-        
+
         // Upload gambar jika ada
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
@@ -51,7 +51,7 @@ class InformasiController extends Controller
             $gambar->move(public_path('uploads/informasi'), $namaFile);
             $data['gambar'] = 'uploads/informasi/' . $namaFile;
         }
-        
+
         Informasi::create($data);
         return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil ditambahkan.');
     }
@@ -82,26 +82,26 @@ class InformasiController extends Controller
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         $data = [
             'judul' => $request->judul,
             'konten' => $request->konten,
             'is_published' => $request->has('is_published'),
         ];
-        
+
         // Upload gambar jika ada
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama jika ada
             if ($informasi->gambar && file_exists(public_path($informasi->gambar))) {
                 unlink(public_path($informasi->gambar));
             }
-            
+
             $gambar = $request->file('gambar');
             $namaFile = time() . '_' . $gambar->getClientOriginalName();
             $gambar->move(public_path('uploads/informasi'), $namaFile);
             $data['gambar'] = 'uploads/informasi/' . $namaFile;
         }
-        
+
         $informasi->update($data);
         return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil diupdate.');
     }
@@ -115,7 +115,7 @@ class InformasiController extends Controller
         if ($informasi->gambar && file_exists(public_path($informasi->gambar))) {
             unlink(public_path($informasi->gambar));
         }
-        
+
         $informasi->delete();
         return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil dihapus.');
     }

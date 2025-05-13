@@ -50,8 +50,17 @@
                 <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:40px;"> Portal Fakultas
             </a>
             <div class="d-flex gap-2">
-                <a href="{{ route('register') }}" class="btn btn-success">Daftar Mahasiswa</a>
-                <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
+                @auth
+                    <!-- Show logout button if logged in -->
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger">Logout</button>
+                    </form>
+                @else
+                    <!-- Show register and login buttons if not logged in -->
+                    <a href="{{ route('register') }}" class="btn btn-success">Daftar</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
+                @endauth
             </div>
         </div>
     </nav>
