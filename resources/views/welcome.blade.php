@@ -70,7 +70,11 @@
                 <div class="carousel-item @if($i==0) active @endif">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <img src="{{ asset('sb-admin-2/img/slider'.(($i%3)+1).'.jpg') }}" class="d-block w-100 slider-img" alt="Slider Foto {{ $i+1 }}">
+                            @if($info->gambar)
+                                <img src="{{ asset($info->gambar) }}" class="d-block w-100 slider-img" alt="{{ $info->judul }}">
+                            @else
+                                <img src="{{ asset('sb-admin-2/img/slider'.(($i%3)+1).'.jpg') }}" class="d-block w-100 slider-img" alt="Slider Foto {{ $i+1 }}">
+                            @endif
                         </div>
                         <div class="col-md-6">
                             <h4 class="fw-bold">{{ $info->judul }}</h4>

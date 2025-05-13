@@ -10,16 +10,24 @@
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th>Judul</th>
-                <th>Penulis</th>
-                <th>Publikasi</th>
-                <th>Aksi</th>
+                <th width="30%">Judul</th>
+                <th width="15%">Gambar</th>
+                <th width="20%">Penulis</th>
+                <th width="15%">Publikasi</th>
+                <th width="20%">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($informasis as $info)
                 <tr>
                     <td>{{ $info->judul }}</td>
+                    <td>
+                        @if($info->gambar)
+                            <img src="{{ asset($info->gambar) }}" alt="{{ $info->judul }}" width="100" class="img-thumbnail">
+                        @else
+                            <span class="badge bg-light text-dark">Tidak ada gambar</span>
+                        @endif
+                    </td>
                     <td>{{ $info->user->name }}</td>
                     <td>
                         @if($info->is_published)
