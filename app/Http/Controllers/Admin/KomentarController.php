@@ -38,7 +38,7 @@ class KomentarController extends Controller
         ]);
 
         $parentComment = Komentar::findOrFail($request->parent_id);
-        
+
         $komentar = new Komentar([
             'user_id' => auth()->id(),
             'isi' => $request->isi,
@@ -46,13 +46,13 @@ class KomentarController extends Controller
             'commentable_id' => $parentComment->commentable_id,
             'commentable_type' => $parentComment->commentable_type,
         ]);
-        
+
         $komentar->save();
-        
+
         if ($request->has('informasi_id') && $parentComment->commentable_type === 'App\\Models\\Informasi') {
             return redirect()->route('admin.informasi.show', $request->informasi_id)->with('success', 'Balasan berhasil ditambahkan.');
         }
-        
+
         return redirect()->back()->with('success', 'Balasan berhasil ditambahkan.');
     }
 

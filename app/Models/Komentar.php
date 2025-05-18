@@ -20,12 +20,12 @@ class Komentar extends Model
     {
         return $this->morphTo();
     }
-    
+
     public function replies()
     {
         return $this->hasMany(Komentar::class, 'parent_id');
     }
-    
+
     public function parent()
     {
         return $this->belongsTo(Komentar::class, 'parent_id');

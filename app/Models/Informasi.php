@@ -19,17 +19,17 @@ class Informasi extends Model
     {
         return $this->belongsTo(Agenda::class);
     }
-    
+
     public function comments()
     {
         return $this->morphMany(Komentar::class, 'commentable')->whereNull('parent_id');
     }
-    
+
     public function replies()
     {
         return $this->morphMany(Komentar::class, 'commentable')->whereNotNull('parent_id');
     }
-    
+
     public function allComments()
     {
         return $this->morphMany(Komentar::class, 'commentable');

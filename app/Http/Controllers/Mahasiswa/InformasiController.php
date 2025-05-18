@@ -17,7 +17,7 @@ class InformasiController extends Controller
             ->with(['user', 'agenda'])
             ->latest()
             ->paginate(10);
-            
+
         return view('mahasiswa.informasi.index', compact('informasiList'));
     }
 
@@ -29,7 +29,7 @@ class InformasiController extends Controller
         $informasi = Informasi::where('is_published', 1)
             ->with(['user', 'agenda', 'comments.user', 'replies.user'])
             ->findOrFail($id);
-            
+
         return view('mahasiswa.informasi.show', compact('informasi'));
     }
 }

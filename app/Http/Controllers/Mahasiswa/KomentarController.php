@@ -22,7 +22,7 @@ class KomentarController extends Controller
         ]);
 
         $informasi = Informasi::findOrFail($request->informasi_id);
-        
+
         $komentar = new Komentar([
             'user_id' => Auth::id(),
             'isi' => $request->isi,
@@ -30,9 +30,9 @@ class KomentarController extends Controller
             'commentable_type' => Informasi::class,
             'parent_id' => $request->parent_id,
         ]);
-        
+
         $komentar->save();
-        
+
         return redirect()->back()->with('success', $request->parent_id ? 'Balasan berhasil ditambahkan.' : 'Komentar berhasil ditambahkan.');
     }
 
@@ -45,7 +45,7 @@ class KomentarController extends Controller
         if ($komentar->user_id !== Auth::id()) {
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini.');
         }
-        
+
         $komentar->delete();
         return redirect()->back()->with('success', 'Komentar berhasil dihapus.');
     }
