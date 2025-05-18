@@ -9,20 +9,6 @@
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke daftar informasi
             </a>
             
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            
             <!-- Informasi Card -->
             <div class="card shadow-sm mb-4">
                 @if($informasi->gambar)
@@ -73,8 +59,8 @@
                         @csrf
                         <input type="hidden" name="informasi_id" value="{{ $informasi->id }}">
                         <div class="mb-3">
-                            <label for="isi" class="form-label">Tinggalkan komentar Anda</label>
-                            <textarea class="form-control @error('isi') is-invalid @enderror" name="isi" id="isi" rows="3" required></textarea>
+                            <label for="reply-isi" class="form-label">Tinggalkan komentar Anda</label>
+                            <textarea class="form-control @error('isi') is-invalid @enderror" name="isi" id="reply-isi" rows="3" required></textarea>
                             @error('isi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -106,7 +92,7 @@
                                             <form action="{{ route('mahasiswa.komentar.destroy', $komentar->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus komentar ini?')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus komentar ini?\n\nKomentar yang dihapus tidak dapat dikembalikan.')">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
@@ -127,8 +113,14 @@
                                             <input type="hidden" name="parent_id" value="{{ $komentar->id }}">
                                             <div class="mb-2">
                                                 <textarea class="form-control" name="isi" rows="2" placeholder="Tulis balasan Anda..." required></textarea>
+                                                <small class="text-muted">Balasan Anda akan dapat dilihat oleh admin dan mahasiswa lain.</small>
                                             </div>
-                                            <button type="submit" class="btn btn-sm btn-success">Kirim Balasan</button>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-send"></i> Kirim Balasan
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#reply-form-{{ $komentar->id }}">
+                                                <i class="bi bi-x"></i> Batal
+                                            </button>
                                         </form>
                                     </div>
                                     
@@ -136,17 +128,20 @@
                                     @if($komentar->replies->count() > 0)
                                         <div class="ms-4 mt-3">
                                             @foreach($komentar->replies as $reply)
-                                                <div class="card mb-2 bg-light">
+                                                <div class="card mb-2 bg-light {{ $reply->user->role === 'admin' ? 'border-start border-danger border-3' : '' }}">
                                                     <div class="card-body py-2">
                                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                                             <div class="d-flex align-items-center">
-                                                                <div class="bg-primary text-white rounded-circle p-1 text-center me-2" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                                                <div class="{{ $reply->user->role === 'admin' ? 'bg-danger' : 'bg-primary' }} text-white rounded-circle p-1 text-center me-2" style="width: 30px; height: 30px; font-size: 0.8rem;">
                                                                     {{ substr($reply->user->name, 0, 1) }}
                                                                 </div>
                                                                 <div>
                                                                     <div class="fw-bold">{{ $reply->user->name }} 
                                                                         @if($reply->user->role === 'admin')
                                                                             <span class="badge bg-danger">Admin</span>
+                                                                        @endif
+                                                                        @if($reply->created_at->diffInHours(now()) < 24 && $reply->user->role === 'admin')
+                                                                            <span class="badge bg-warning text-dark">Baru</span>
                                                                         @endif
                                                                     </div>
                                                                     <div class="text-muted small">{{ $reply->created_at->format('d M Y, H:i') }}</div>
