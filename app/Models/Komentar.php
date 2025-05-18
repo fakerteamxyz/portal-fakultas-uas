@@ -9,7 +9,7 @@ class Komentar extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'isi', 'commentable_id', 'commentable_type'];
+    protected $fillable = ['user_id', 'isi', 'commentable_id', 'commentable_type', 'parent_id'];
 
     public function user()
     {
@@ -19,5 +19,15 @@ class Komentar extends Model
     public function commentable()
     {
         return $this->morphTo();
+    }
+    
+    public function replies()
+    {
+        return $this->hasMany(Komentar::class, 'parent_id');
+    }
+    
+    public function parent()
+    {
+        return $this->belongsTo(Komentar::class, 'parent_id');
     }
 }

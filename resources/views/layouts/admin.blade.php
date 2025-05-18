@@ -7,6 +7,8 @@
     <!-- SB Admin 2 CSS -->
     <link href="{{ asset('sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body id="page-top">
     <div id="wrapper">
@@ -31,5 +33,8 @@
     <script src="{{ asset('sb-admin-2/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/js/sb-admin-2.min.js') }}"></script>
+    
+    <!-- Page specific scripts -->
+    @yield('scripts')
 </body>
 </html>

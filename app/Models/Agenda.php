@@ -18,7 +18,7 @@ class Agenda extends Model
     {
         return $this->belongsTo(KategoriAgenda::class, 'kategori_agenda_id');
     }
-    
+
     public function informasi()
     {
         return $this->hasMany(Informasi::class);

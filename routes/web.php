@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\KategoriAgendaController;
 use App\Http\Controllers\Admin\KomentarController;
 use App\Http\Controllers\Admin\AgendaController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Mahasiswa\InformasiController as MahasiswaInformasiController;
+use App\Http\Controllers\Mahasiswa\KomentarController as MahasiswaKomentarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,11 +51,13 @@ Route::middleware(['auth', 'role:mahasiswa'])->get('/landing', function () {
     return view('mahasiswa.landing'); // hanya tampilan landing page
 })->name('mahasiswa.landing');
 
+Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+    Route::resource('informasi', MahasiswaInformasiController::class)->only(['index', 'show']);
+    Route::resource('komentar', MahasiswaKomentarController::class)->only(['store', 'destroy']);
+});
+
 Route::middleware(['auth', 'role:mahasiswa'])->get('/informasi', function () {
-    // Nanti bisa diganti dengan controller kalau sudah ada model
-    return view('mahasiswa.informasi', [
-        'dataInformasi' => \App\Models\Informasi::latest()->get()
-    ]);
+    return redirect()->route('mahasiswa.informasi.index');
 })->name('mahasiswa.informasi');
 
 Route::middleware(['auth', 'role:mahasiswa'])->get('/agenda', function () {
@@ -67,7 +71,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('informasi', InformasiController::class);
     Route::resource('agenda', AgendaController::class);
     Route::resource('kategori-agenda', KategoriAgendaController::class);
-    Route::resource('komentar', KomentarController::class)->only(['index', 'destroy']);
+    Route::resource('komentar', KomentarController::class)->only(['index', 'store', 'destroy']);
 });
 
 Route::middleware('auth')->group(function () {

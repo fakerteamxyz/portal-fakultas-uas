@@ -65,7 +65,8 @@ class InformasiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $informasi = Informasi::with(['user', 'agenda', 'comments.user', 'comments.replies.user'])->findOrFail($id);
+        return view('admin.informasi.show', compact('informasi'));
     }
 
     /**

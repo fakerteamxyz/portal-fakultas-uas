@@ -130,7 +130,11 @@
                                     </span>
                                 @endif
                             </div>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Baca selengkapnya</a>
+                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : route('login'))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
+                                @if($info->allComments && $info->allComments->count() > 0) 
+                                    <span class="badge bg-secondary rounded-pill">{{ $info->allComments->count() }} komentar</span>
+                                @endif
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -170,7 +174,11 @@
                             <span class="text-muted small">Oleh: {{ $info->user->name }}</span>
                         </div>
                         <div class="mt-3">
-                            <a href="#" class="btn btn-sm btn-outline-primary">Baca selengkapnya</a>
+                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : route('login'))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
+                                @if($info->allComments && $info->allComments->count() > 0) 
+                                    <span class="badge bg-secondary rounded-pill">{{ $info->allComments->count() }} komentar</span>
+                                @endif
+                            </a>
                         </div>
                     </div>
                 </div>

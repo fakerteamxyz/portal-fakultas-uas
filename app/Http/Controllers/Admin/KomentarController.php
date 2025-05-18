@@ -14,7 +14,7 @@ class KomentarController extends Controller
      */
     public function index()
     {
-        $komentars = Komentar::with('user')->latest()->paginate(10);
+        $komentars = Komentar::with(['user', 'commentable'])->latest()->paginate(10);
         return view('admin.komentar.index', compact('komentars'));
     }
 
@@ -31,7 +31,29 @@ class KomentarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'isi' => 'required|string',
+            'parent_id' => 'required|exists:komentars,id',
+            'informasi_id' => 'nullable|exists:informasis,id',
+        ]);
+
+        $parentComment = Komentar::findOrFail($request->parent_id);
+        
+        $komentar = new Komentar([
+            'user_id' => auth()->id(),
+            'isi' => $request->isi,
+            'parent_id' => $request->parent_id,
+            'commentable_id' => $parentComment->commentable_id,
+            'commentable_type' => $parentComment->commentable_type,
+        ]);
+        
+        $komentar->save();
+        
+        if ($request->has('informasi_id') && $parentComment->commentable_type === 'App\\Models\\Informasi') {
+            return redirect()->route('admin.informasi.show', $request->informasi_id)->with('success', 'Balasan berhasil ditambahkan.');
+        }
+        
+        return redirect()->back()->with('success', 'Balasan berhasil ditambahkan.');
     }
 
     /**

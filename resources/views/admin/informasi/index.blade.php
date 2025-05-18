@@ -45,11 +45,18 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.informasi.edit', $info->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('admin.informasi.show', $info->id) }}" class="btn btn-sm btn-info mb-1">
+                            <i class="fas fa-eye"></i> Lihat
+                        </a>
+                        <a href="{{ route('admin.informasi.edit', $info->id) }}" class="btn btn-sm btn-warning mb-1">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
                         <form action="{{ route('admin.informasi.destroy', $info->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Hapus</button>
+                            <button class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
                         </form>
                     </td>
                 </tr>
