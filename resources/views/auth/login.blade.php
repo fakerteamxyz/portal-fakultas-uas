@@ -52,10 +52,10 @@
                         @endif
                     </div>
                     <div>
-                        <a href="{{ route('register') }}" class="btn btn-outline-secondary me-2">
+                        <a href="{{ route('register') }}" class="btn btn-outline-primary me-2">
                             <i class="bi bi-person-plus me-1"></i> Daftar
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-outline-primary">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Login
                         </button>
                     </div>

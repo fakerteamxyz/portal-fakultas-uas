@@ -41,6 +41,14 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: none; }
         }
+        .nav-pills .nav-link:hover {
+            background-color: rgba(78, 115, 223, 0.1);
+            color: #4e73df !important;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #4e73df;
+            color: white !important;
+        }
     </style>
 </head>
 <body>
@@ -58,16 +66,37 @@
                     </form>
                 @else
                     <!-- Show register and login buttons if not logged in -->
-                    <a href="{{ route('register') }}" class="btn btn-success">Daftar</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Daftar</a>
                     <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
                 @endauth
             </div>
         </div>
     </nav>
+    
+    <!-- Category Navigation -->
+    <div class="bg-light py-2 mb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="nav nav-pills nav-fill">
+                        <a class="nav-link text-dark" href="#informasi"><i class="bi bi-megaphone-fill me-1"></i> Informasi</a>
+                        <a class="nav-link text-dark" href="#agenda"><i class="bi bi-calendar-event me-1"></i> Agenda</a>
+                        @foreach(\App\Models\KategoriAgenda::all() as $kategori)
+                            <a class="nav-link text-dark" href="#agenda-{{ $kategori->id }}">
+                                <i class="bi bi-tag-fill me-1"></i> {{ $kategori->nama }}
+                            </a>
+                        @endforeach
+                        <a class="nav-link text-dark" href="#komentar"><i class="bi bi-chat-quote-fill me-1"></i> Testimoni</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <section class="hero fade-in">
         <h1 class="display-4 fw-bold mb-3">Selamat Datang di Portal Fakultas</h1>
         <p class="lead mb-4">Akses informasi, agenda, dan layanan kampus dengan mudah dan cepat.</p>
-        <a href="#informasi" class="btn btn-light btn-lg shadow">Jelajahi Informasi <i class="bi bi-arrow-down"></i></a>
+        <a href="#informasi" class="btn btn-light btn-lg shadow">Informasi Terbaru <i class="bi bi-arrow-down"></i></a>
     </section>
     <!-- SLIDER INFORMASI -->
     <section class="container my-5 fade-in" id="informasi">
@@ -132,13 +161,47 @@
                         <h5 class="card-title">{{ $agenda->judul }}</h5>
                         <p class="card-text">{{ Str::limit($agenda->deskripsi, 100) }}</p>
                         <div class="mb-2"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y, H:i') }}</div>
-                        <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="badge bg-info">{{ $agenda->kategoriAgenda->nama ?? 'Umum' }}</span>
+                            <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
     </section>
+
+    <!-- AGENDA BY CATEGORY SECTIONS -->
+    @foreach(\App\Models\KategoriAgenda::all() as $kategori)
+    <section class="container my-5 fade-in" id="agenda-{{ $kategori->id }}">
+        <h2 class="mb-4 text-center fw-bold">Agenda {{ $kategori->nama }}</h2>
+        <div class="row g-4">
+            @php $agendas = \App\Models\Agenda::where('kategori_agenda_id', $kategori->id)->latest()->take(3)->get(); @endphp
+            
+            @if($agendas->count() > 0)
+                @foreach($agendas as $agenda)
+                <div class="col-md-4">
+                    <div class="card info-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $agenda->judul }}</h5>
+                            <p class="card-text">{{ Str::limit($agenda->deskripsi, 100) }}</p>
+                            <div class="mb-2"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y, H:i') }}</div>
+                            <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            @else
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i> Belum ada agenda untuk kategori ini
+                    </div>
+                </div>
+            @endif
+        </div>
+    </section>
+    @endforeach
     <!-- KOMENTAR SECTION -->
     <section class="container my-5 fade-in" id="komentar">
         <h2 class="mb-4 text-center fw-bold">Testimoni Mahasiswa</h2>
@@ -170,5 +233,54 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all nav links
+            const navLinks = document.querySelectorAll('.nav-pills .nav-link');
+            
+            // Add click event to smooth scroll
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Update active state on scroll
+            window.addEventListener('scroll', function() {
+                let current = '';
+                const sections = document.querySelectorAll('section[id]');
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 100) {
+                        current = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // Set first nav link as active by default
+            if (navLinks.length > 0) {
+                navLinks[0].classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -58,7 +58,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a href="{{ route('login') }}" class="text-decoration-none">Sudah punya akun? Login</a>
-                    <button type="submit" class="btn btn-primary px-4">
+                    <button type="submit" class="btn btn-outline-primary px-4">
                         <i class="bi bi-person-plus me-2"></i> Daftar
                     </button>
                 </div>
