@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\InformasiController;
 use App\Http\Controllers\Admin\KategoriAgendaController;
 use App\Http\Controllers\Admin\KomentarController;
+use App\Http\Controllers\Admin\AgendaController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,7 @@ use App\Http\Controllers\Admin\KomentarController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     $role = auth()->user()->role ?? null;
@@ -65,6 +65,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->get('/agenda', function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('informasi', InformasiController::class);
+    Route::resource('agenda', AgendaController::class);
     Route::resource('kategori-agenda', KategoriAgendaController::class);
     Route::resource('komentar', KomentarController::class)->only(['index', 'destroy']);
 });

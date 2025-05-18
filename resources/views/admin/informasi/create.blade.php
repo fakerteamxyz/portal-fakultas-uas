@@ -14,6 +14,21 @@
             <textarea name="konten" id="konten" rows="5" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
+            <label for="agenda_id" class="form-label">Agenda Terkait (opsional)</label>
+            <select name="agenda_id" id="agenda_id" class="form-control">
+                <option value="">-- Pilih Agenda (jika ada) --</option>
+                @foreach($agendas as $agenda)
+                    <option value="{{ $agenda->id }}">
+                        {{ $agenda->judul }} - {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y') }}
+                        @if($agenda->kategori)
+                            [{{ $agenda->kategori->nama }}]
+                        @endif
+                    </option>
+                @endforeach
+            </select>
+            <small class="form-text text-muted">Pilih agenda yang terkait dengan informasi ini (jika ada).</small>
+        </div>
+        <div class="mb-3">
             <label for="gambar" class="form-label">Gambar (opsional)</label>
             <input type="file" name="gambar" id="gambar" class="form-control" accept="image/*">
             <small class="form-text text-muted">Upload gambar yang akan ditampilkan pada slider informasi. Format: JPG, PNG, GIF. Maksimal 2MB.</small>

@@ -104,7 +104,7 @@
         <div id="sliderInfo" class="carousel slide mb-5" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @php $i = 0; @endphp
-                @foreach(\App\Models\Informasi::where('is_published',1)->latest()->take(3)->get() as $info)
+                @foreach($sliderInformasi as $info)
                 <div class="carousel-item @if($i==0) active @endif">
                     <div class="row align-items-center">
                         <div class="col-md-6">
@@ -117,7 +117,20 @@
                         <div class="col-md-6">
                             <h4 class="fw-bold">{{ $info->judul }}</h4>
                             <p>{{ Str::limit($info->konten, 120) }}</p>
-                            <span class="badge bg-primary">{{ $info->created_at->format('d M Y') }}</span>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge bg-primary">{{ $info->created_at->format('d M Y') }}</span>
+                                @if($info->user && $info->user->role === 'admin')
+                                    <span class="badge bg-danger">
+                                        <i class="bi bi-broadcast me-1"></i> Update Admin
+                                    </span>
+                                @endif
+                                @if($info->agenda)
+                                    <span class="badge bg-info text-dark">
+                                        <i class="bi bi-calendar-event me-1"></i> {{ $info->agenda->judul }}
+                                    </span>
+                                @endif
+                            </div>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Baca selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -134,15 +147,30 @@
             </button>
         </div>
         <div class="row g-4">
-            @foreach(\App\Models\Informasi::where('is_published',1)->latest()->take(3)->get() as $info)
+            @foreach($latestInformasi as $info)
             <div class="col-md-4">
-                <div class="card info-card h-100 shadow-sm">
+                <div class="card info-card h-100 shadow-sm {{ $info->user && $info->user->role === 'admin' ? 'border-danger' : '' }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $info->judul }}</h5>
                         <p class="card-text">{{ Str::limit($info->konten, 100) }}</p>
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            @if($info->user && $info->user->role === 'admin')
+                                <span class="badge bg-danger">
+                                    <i class="bi bi-broadcast me-1"></i> Update Admin
+                                </span>
+                            @endif
+                            @if($info->agenda)
+                                <span class="badge bg-info text-dark">
+                                    <i class="bi bi-calendar-event me-1"></i> {{ $info->agenda->judul }}
+                                </span>
+                            @endif
+                        </div>
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="badge bg-primary">{{ $info->created_at->format('d M Y') }}</span>
                             <span class="text-muted small">Oleh: {{ $info->user->name }}</span>
+                        </div>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-sm btn-outline-primary">Baca selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +182,7 @@
     <section class="container my-5 fade-in" id="agenda">
         <h2 class="mb-4 text-center fw-bold">Agenda Fakultas</h2>
         <div class="row g-4">
-            @foreach(\App\Models\Agenda::latest()->take(3)->get() as $agenda)
+            @foreach($latestAgendas as $agenda)
             <div class="col-md-4">
                 <div class="card info-card h-100 shadow-sm">
                     <div class="card-body">
@@ -162,7 +190,7 @@
                         <p class="card-text">{{ Str::limit($agenda->deskripsi, 100) }}</p>
                         <div class="mb-2"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y, H:i') }}</div>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <span class="badge bg-info">{{ $agenda->kategoriAgenda->nama ?? 'Umum' }}</span>
+                            <span class="badge bg-info">{{ $agenda->kategori->nama ?? 'Umum' }}</span>
                             <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
                         </div>
                     </div>
@@ -173,21 +201,22 @@
     </section>
 
     <!-- AGENDA BY CATEGORY SECTIONS -->
-    @foreach(\App\Models\KategoriAgenda::all() as $kategori)
+    @foreach($kategoriAgendas as $kategori)
     <section class="container my-5 fade-in" id="agenda-{{ $kategori->id }}">
         <h2 class="mb-4 text-center fw-bold">Agenda {{ $kategori->nama }}</h2>
         <div class="row g-4">
-            @php $agendas = \App\Models\Agenda::where('kategori_agenda_id', $kategori->id)->latest()->take(3)->get(); @endphp
-            
-            @if($agendas->count() > 0)
-                @foreach($agendas as $agenda)
+            @if($agendasByCategory[$kategori->id]->count() > 0)
+                @foreach($agendasByCategory[$kategori->id] as $agenda)
                 <div class="col-md-4">
                     <div class="card info-card h-100 shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">{{ $agenda->judul }}</h5>
                             <p class="card-text">{{ Str::limit($agenda->deskripsi, 100) }}</p>
                             <div class="mb-2"><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y, H:i') }}</div>
-                            <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="badge bg-info">{{ $agenda->kategori->nama ?? 'Umum' }}</span>
+                                <span class="text-muted small">Oleh: {{ $agenda->user->name }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.agenda.index') }}">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Kelola Agenda</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.kategori-agenda.index') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Kategori Agenda</span>

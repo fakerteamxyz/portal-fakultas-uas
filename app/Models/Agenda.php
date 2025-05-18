@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     use HasFactory;
-    protected $fillable = ['judul', 'deskripsi', 'tanggal', 'user_id'];
+    protected $fillable = ['judul', 'deskripsi', 'tanggal', 'user_id', 'kategori_agenda_id'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -17,5 +17,10 @@ class Agenda extends Model
     public function kategori()
     {
         return $this->belongsTo(KategoriAgenda::class, 'kategori_agenda_id');
+    }
+    
+    public function informasi()
+    {
+        return $this->hasMany(Informasi::class);
     }
 }

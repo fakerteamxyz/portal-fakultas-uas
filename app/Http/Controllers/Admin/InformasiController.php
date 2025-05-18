@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Informasi;
+use App\Models\Agenda;
 use Illuminate\Support\Facades\Auth;
 
 class InformasiController extends Controller
@@ -14,7 +15,7 @@ class InformasiController extends Controller
      */
     public function index()
     {
-        $informasis = Informasi::latest()->paginate(10);
+        $informasis = Informasi::with(['user', 'agenda'])->latest()->paginate(10);
         return view('admin.informasi.index', compact('informasis'));
     }
 
@@ -23,7 +24,8 @@ class InformasiController extends Controller
      */
     public function create()
     {
-        return view('admin.informasi.create');
+        $agendas = Agenda::with('kategori')->latest()->get();
+        return view('admin.informasi.create', compact('agendas'));
     }
 
     /**
@@ -35,6 +37,7 @@ class InformasiController extends Controller
             'judul' => 'required|string|max:255',
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'agenda_id' => 'nullable|exists:agendas,id',
         ]);
 
         $data = [
@@ -42,6 +45,7 @@ class InformasiController extends Controller
             'judul' => $request->judul,
             'konten' => $request->konten,
             'is_published' => $request->has('is_published'),
+            'agenda_id' => $request->agenda_id,
         ];
 
         // Upload gambar jika ada
@@ -69,7 +73,8 @@ class InformasiController extends Controller
      */
     public function edit(Informasi $informasi)
     {
-        return view('admin.informasi.edit', compact('informasi'));
+        $agendas = Agenda::with('kategori')->latest()->get();
+        return view('admin.informasi.edit', compact('informasi', 'agendas'));
     }
 
     /**
@@ -81,12 +86,14 @@ class InformasiController extends Controller
             'judul' => 'required|string|max:255',
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'agenda_id' => 'nullable|exists:agendas,id',
         ]);
 
         $data = [
             'judul' => $request->judul,
             'konten' => $request->konten,
             'is_published' => $request->has('is_published'),
+            'agenda_id' => $request->agenda_id,
         ];
 
         // Upload gambar jika ada

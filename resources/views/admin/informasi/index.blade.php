@@ -10,9 +10,10 @@
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th width="30%">Judul</th>
-                <th width="15%">Gambar</th>
-                <th width="20%">Penulis</th>
+                <th width="25%">Judul</th>
+                <th width="10%">Gambar</th>
+                <th width="15%">Penulis</th>
+                <th width="15%">Agenda Terkait</th>
                 <th width="15%">Publikasi</th>
                 <th width="20%">Aksi</th>
             </tr>
@@ -30,6 +31,13 @@
                     </td>
                     <td>{{ $info->user->name }}</td>
                     <td>
+                        @if($info->agenda)
+                            <span class="badge bg-info text-dark">{{ $info->agenda->judul }}</span>
+                        @else
+                            <span class="badge bg-light text-dark">-</span>
+                        @endif
+                    </td>
+                    <td>
                         @if($info->is_published)
                             <span class="badge bg-success">Published</span>
                         @else
@@ -46,7 +54,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="4" class="text-center">Belum ada informasi.</td></tr>
+                <tr><td colspan="6" class="text-center">Belum ada informasi.</td></tr>
             @endforelse
         </tbody>
     </table>
