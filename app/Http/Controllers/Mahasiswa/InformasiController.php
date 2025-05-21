@@ -27,7 +27,7 @@ class InformasiController extends Controller
     public function show($id)
     {
         $informasi = Informasi::where('is_published', 1)
-            ->with(['user', 'agenda', 'comments.user', 'replies.user'])
+            ->with(['user', 'agenda', 'comments.user', 'comments.replies.user'])
             ->findOrFail($id);
 
         return view('mahasiswa.informasi.show', compact('informasi'));

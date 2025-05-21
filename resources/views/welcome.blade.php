@@ -123,6 +123,10 @@
                                     <span class="badge bg-danger">
                                         <i class="bi bi-broadcast me-1"></i> Update Admin
                                     </span>
+                                @elseif($info->user && $info->user->role === 'dosen')
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-person-badge me-1"></i> Info Dosen
+                                    </span>
                                 @endif
                                 @if($info->agenda)
                                     <span class="badge bg-info text-dark">
@@ -130,7 +134,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : route('login'))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
+                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : (auth()->user()->role === 'dosen' ? route('dosen.view.informasi', $info->id) : route('login')))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
                                 @if($info->allComments && $info->allComments->count() > 0) 
                                     <span class="badge bg-secondary rounded-pill">{{ $info->allComments->count() }} komentar</span>
                                 @endif
@@ -162,6 +166,10 @@
                                 <span class="badge bg-danger">
                                     <i class="bi bi-broadcast me-1"></i> Update Admin
                                 </span>
+                            @elseif($info->user && $info->user->role === 'dosen')
+                                <span class="badge bg-success">
+                                    <i class="bi bi-person-badge me-1"></i> Info Dosen
+                                </span>
                             @endif
                             @if($info->agenda)
                                 <span class="badge bg-info text-dark">
@@ -174,7 +182,7 @@
                             <span class="text-muted small">Oleh: {{ $info->user->name }}</span>
                         </div>
                         <div class="mt-3">
-                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : route('login'))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
+                            <a href="{{ auth()->check() ? (auth()->user()->role === 'mahasiswa' ? route('mahasiswa.informasi.show', $info->id) : (auth()->user()->role === 'admin' ? route('admin.informasi.show', $info->id) : (auth()->user()->role === 'dosen' ? route('dosen.view.informasi', $info->id) : route('login')))) : route('login') }}" class="btn btn-sm btn-outline-primary">Baca selengkapnya 
                                 @if($info->allComments && $info->allComments->count() > 0) 
                                     <span class="badge bg-secondary rounded-pill">{{ $info->allComments->count() }} komentar</span>
                                 @endif

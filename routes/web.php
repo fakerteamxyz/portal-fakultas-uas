@@ -45,6 +45,9 @@ Route::middleware(['auth', 'role:dosen'])->get('/dosen/dashboard', function () {
 
 Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->group(function () {
     Route::resource('informasi', \App\Http\Controllers\Dosen\InformasiController::class);
+    Route::resource('agenda', \App\Http\Controllers\Dosen\AgendaController::class);
+    Route::get('view-informasi/{id}', [\App\Http\Controllers\Dosen\InformasiController::class, 'viewPublished'])->name('view.informasi');
+    Route::resource('komentar', \App\Http\Controllers\Dosen\KomentarController::class)->only(['store']);
 });
 
 Route::middleware(['auth', 'role:staff'])->get('/staff/dashboard', function () {

@@ -15,14 +15,14 @@ class WelcomeController extends Controller
         // Get the latest information from admin users for the slider
         $sliderInformasi = Informasi::with(['user', 'agenda', 'allComments'])
             ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
+                $query->whereIn('role', ['admin', 'dosen']);
             })
             ->where('is_published', 1)
             ->latest()
             ->take(3)
             ->get();
 
-        // If there are less than 3 admin informasi, get any other published informasi
+        // If there are less than 3 admin/dosen informasi, get any other published informasi
         if ($sliderInformasi->count() < 3) {
             $additionalInformasi = Informasi::with(['user', 'agenda', 'allComments'])
                 ->where('is_published', 1)

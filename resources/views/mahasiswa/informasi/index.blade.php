@@ -32,6 +32,10 @@
                                                 <span class="badge bg-danger">
                                                     <i class="bi bi-broadcast me-1"></i> Admin
                                                 </span>
+                                            @elseif($info->user && $info->user->role === 'dosen')
+                                                <span class="badge bg-success">
+                                                    <i class="bi bi-person-badge me-1"></i> Info Dosen
+                                                </span>
                                             @endif
                                             @if($info->agenda)
                                                 <span class="badge bg-info text-dark">

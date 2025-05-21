@@ -19,7 +19,7 @@ class InformasiController extends Controller
         $informasi = Informasi::where('user_id', Auth::id())
             ->latest()
             ->paginate(10);
-            
+
         return view('dosen.informasi.index', compact('informasi'));
     }
 
@@ -28,7 +28,7 @@ class InformasiController extends Controller
      */
     public function create()
     {
-        $agendas = Agenda::all();
+        $agendas = Agenda::where('user_id', Auth::id())->orderBy('tanggal', 'desc')->get();
         return view('dosen.informasi.create', compact('agendas'));
     }
 
@@ -47,7 +47,7 @@ class InformasiController extends Controller
         $data = $request->all();
         $data['user_id'] = Auth::id();
         $data['is_published'] = $request->has('is_published') ? 1 : 0;
-        
+
         // Handle file upload
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
@@ -80,6 +80,18 @@ class InformasiController extends Controller
 
         return view('dosen.informasi.show', compact('informasi'));
     }
+    
+    /**
+     * Display any published information, allowing dosen to reply to student comments.
+     */
+    public function viewPublished($id)
+    {
+        $informasi = Informasi::where('is_published', 1)
+            ->with(['user', 'agenda', 'comments.user', 'comments.replies.user'])
+            ->findOrFail($id);
+            
+        return view('dosen.informasi.view_published', compact('informasi'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -92,7 +104,7 @@ class InformasiController extends Controller
                 ->with('error', 'Anda tidak memiliki izin untuk mengedit informasi ini');
         }
 
-        $agendas = Agenda::all();
+        $agendas = Agenda::where('user_id', Auth::id())->orderBy('tanggal', 'desc')->get();
         return view('dosen.informasi.edit', compact('informasi', 'agendas'));
     }
 
@@ -116,14 +128,14 @@ class InformasiController extends Controller
 
         $data = $request->all();
         $data['is_published'] = $request->has('is_published') ? 1 : 0;
-        
+
         // Handle file upload
         if ($request->hasFile('gambar')) {
             // Delete old image if exists
             if ($informasi->gambar && file_exists(public_path($informasi->gambar))) {
                 unlink(public_path($informasi->gambar));
             }
-            
+
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/informasi'), $filename);
@@ -156,7 +168,7 @@ class InformasiController extends Controller
         if ($informasi->gambar && file_exists(public_path($informasi->gambar))) {
             unlink(public_path($informasi->gambar));
         }
-        
+
         $informasi->delete();
 
         return redirect()->route('dosen.informasi.index')

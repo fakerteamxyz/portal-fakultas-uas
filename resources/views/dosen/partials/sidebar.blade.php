@@ -16,6 +16,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('dosen.agenda.index') }}">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Kelola Agenda</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ url('/') }}" target="_blank">
             <i class="fas fa-fw fa-globe"></i>
             <span>Dashboard Website</span>
