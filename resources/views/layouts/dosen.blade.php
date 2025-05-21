@@ -47,6 +47,30 @@
                     $(this).remove();
                 });
             }, 5000);
+            
+            // Check for saved sidebar state and apply it
+            if (localStorage.getItem('sidebarToggled') === 'true') {
+                $("body").addClass("sidebar-toggled");
+                $(".sidebar").addClass("toggled");
+            }
+            
+            // Save sidebar state when toggled
+            $("#sidebarToggle, #sidebarToggleTop").on('click', function() {
+                let isToggled = $(".sidebar").hasClass("toggled");
+                localStorage.setItem('sidebarToggled', !isToggled ? 'true' : 'false');
+                
+                // Change icon based on sidebar state
+                if (!isToggled) {
+                    $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-bars").addClass("fa-angle-right");
+                } else {
+                    $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-angle-right").addClass("fa-bars");
+                }
+            });
+            
+            // Set initial icon based on sidebar state
+            if (localStorage.getItem('sidebarToggled') === 'true') {
+                $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-bars").addClass("fa-angle-right");
+            }
         });
     </script>
 </body>

@@ -1,5 +1,11 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+    
+    <!-- Sidebar Toggle (Desktop) -->
+    <button id="sidebarToggle" class="btn btn-link rounded-circle mr-3 d-none d-md-inline-block">
         <i class="fa fa-bars"></i>
     </button>
     

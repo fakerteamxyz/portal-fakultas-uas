@@ -51,6 +51,50 @@
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
+/* Sidebar Toggle Button Styling */
+#sidebarToggle, #sidebarToggleTop {
+    transition: all 0.3s;
+}
+
+#sidebarToggle:hover, #sidebarToggleTop:hover {
+    background-color: #eaecf4;
+    transform: rotate(15deg);
+}
+
+/* Styles for toggled sidebar */
+.sidebar.toggled .sidebar-brand-text {
+    display: none;
+}
+
+.sidebar.toggled .sidebar-brand-icon {
+    margin-right: 0;
+}
+
+/* Improved sidebar toggle behavior */
+.sidebar.toggled {
+    width: 4.5rem !important; /* Reduced from 6.5rem to make it more compact */
+}
+
+.sidebar.toggled .nav-item .nav-link {
+    text-align: center;
+    padding: .75rem 1rem;
+    width: 4.5rem;
+}
+
+.sidebar.toggled .nav-item .nav-link span {
+    display: none !important; /* Hide text completely */
+}
+
+.sidebar.toggled .nav-item .nav-link i {
+    font-size: 1.2rem; /* Slightly larger icons */
+    margin-right: 0;
+}
+
+/* Animation for sidebar toggle */
+.sidebar {
+    transition: all 0.3s ease-in-out;
+}
+
 .btn-success:hover {
     box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
 }
