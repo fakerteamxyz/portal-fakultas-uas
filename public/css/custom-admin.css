@@ -73,12 +73,15 @@
 /* Improved sidebar toggle behavior */
 .sidebar.toggled {
     width: 4.5rem !important; /* Reduced from 6.5rem to make it more compact */
+    position: relative;
+    overflow: visible !important; /* Ensure the sidebar doesn't jump */
 }
 
 .sidebar.toggled .nav-item .nav-link {
     text-align: center;
     padding: .75rem 1rem;
     width: 4.5rem;
+    position: relative;
 }
 
 .sidebar.toggled .nav-item .nav-link span {
@@ -95,6 +98,17 @@
     background-color: rgba(255,255,255,0.1);
     border-radius: 0.25rem;
     transition: all 0.2s ease-in-out;
+}
+
+/* Prevent any animations on the sidebar when in toggled state */
+.sidebar.toggled * {
+    transition: none !important;
+}
+
+/* Prevent hover expansions */
+.sidebar.toggled:hover {
+    width: 4.5rem !important;
+    overflow: visible !important;
 }
 
 /* Animation for sidebar toggle */

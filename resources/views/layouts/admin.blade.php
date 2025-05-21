@@ -38,6 +38,7 @@
     <script src="{{ asset('sb-admin-2/js/sb-admin-2.min.js') }}"></script>
     <script src="{{ asset('js/comment-enhancements.js') }}"></script>
     <script src="{{ asset('js/sidebar-override.js') }}"></script>
+    <script src="{{ asset('js/sidebar-final-fix.js') }}"></script>
     
     <!-- Auto-dismiss alerts after 5 seconds -->
     <script>
@@ -52,37 +53,7 @@
                 });
             }, 5000);
             
-            // Check for saved sidebar state and apply it
-            if (localStorage.getItem('sidebarToggled') === 'true') {
-                $("body").addClass("sidebar-toggled");
-                $(".sidebar").addClass("toggled");
-            }
-            
-            // Save sidebar state when toggled
-            $("#sidebarToggle, #sidebarToggleTop").on('click', function() {
-                let isToggled = $(".sidebar").hasClass("toggled");
-                localStorage.setItem('sidebarToggled', !isToggled ? 'true' : 'false');
-                
-                // Change icon based on sidebar state
-                if (!isToggled) {
-                    $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-bars").addClass("fa-angle-right");
-                } else {
-                    $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-angle-right").addClass("fa-bars");
-                }
-            });
-            
-            // Set initial icon based on sidebar state
-            if (localStorage.getItem('sidebarToggled') === 'true') {
-                $("#sidebarToggle i, #sidebarToggleTop i").removeClass("fa-bars").addClass("fa-angle-right");
-            }
-            
-            // Prevent sidebar from expanding when nav-links are clicked in toggled mode
-            $(".sidebar .nav-item .nav-link").on('click', function(e) {
-                if ($(".sidebar").hasClass("toggled") && !$(this).hasClass('collapse-item') && !$(this).attr('data-toggle')) {
-                    // If clicking a regular nav link, prevent sidebar expansion
-                    e.stopPropagation();
-                }
-            });
+            // Sidebar toggle functionality is now handled in sidebar-override.js
         });
     </script>
     
