@@ -3,9 +3,6 @@
 @section('content')
 <div class="container mt-4">
     <h3>Daftar Agenda</h3>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
     <a href="{{ route('admin.agenda.create') }}" class="btn btn-primary mb-3">+ Tambah Agenda</a>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\InformasiController;
 use App\Http\Controllers\Admin\KategoriAgendaController;
 use App\Http\Controllers\Admin\KomentarController;
 use App\Http\Controllers\Admin\AgendaController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Mahasiswa\InformasiController as MahasiswaInformasiController;
 use App\Http\Controllers\Mahasiswa\KomentarController as MahasiswaKomentarController;
@@ -35,13 +36,16 @@ Route::get('/dashboard', function () {
     };
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', function () {
-    return view('admin.dashboard'); // akan SB Admin 2 di sini
-})->name('admin.dashboard');
+Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 
 Route::middleware(['auth', 'role:dosen'])->get('/dosen/dashboard', function () {
-    return view('dosen.dashboard'); // akan SB Admin 2
+    return view('dosen.dashboard');
 })->name('dosen.dashboard');
+
+Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->group(function () {
+    Route::resource('informasi', \App\Http\Controllers\Dosen\InformasiController::class);
+});
 
 Route::middleware(['auth', 'role:staff'])->get('/staff/dashboard', function () {
     return view('staff.dashboard'); // akan SB Admin 2

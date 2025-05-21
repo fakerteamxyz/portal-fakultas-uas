@@ -3,9 +3,6 @@
 @section('content')
     <h1 class="h3 mb-4 text-gray-800">Kelola User</h1>
     <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Tambah User</a>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
     <table class="table table-bordered">
         <thead>
             <tr>

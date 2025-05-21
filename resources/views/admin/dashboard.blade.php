@@ -2,7 +2,47 @@
 
 @section('content')
     <h1 class="h3 mb-4 text-gray-800">Dashboard Admin</h1>
-    <p>Selamat datang, {{ Auth::user()->name }}!</p>
+    
+    @php
+        $unreadCommentsCount = \App\Models\Komentar::where('is_read', false)->count();
+    @endphp
+    
+    @if($unreadCommentsCount > 0)
+        <div class="alert alert-warning alert-dismissible fade show shadow-sm border-left-warning" role="alert">
+            <i class="fas fa-bell mr-2"></i>
+            <strong>Perhatian!</strong> Anda memiliki {{ $unreadCommentsCount }} komentar yang belum dibaca.
+            <a href="{{ route('admin.komentar.index') }}" class="alert-link">Klik disini</a> untuk melihat dan meresponnya.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    
+    <!-- Welcome Card with Comment Stats -->
+    <div class="card shadow mb-4 border-left-primary">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="mb-0 text-gray-800">Selamat datang, {{ Auth::user()->name }}!</h5>
+                    <p class="mb-0 text-gray-600">{{ now()->format('l, d F Y') }}</p>
+                </div>
+                <div class="d-flex mt-3 mt-sm-0">
+                    @php
+                        $newComments = \App\Models\Komentar::whereDate('created_at', today())->count();
+                        $totalComments = \App\Models\Komentar::count();
+                    @endphp
+                    <div class="text-center me-3">
+                        <div class="h3 mb-0 font-weight-bold text-info">{{ $newComments }}</div>
+                        <div class="text-xs text-gray-600">Komentar Baru Hari Ini</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="h3 mb-0 font-weight-bold text-gray-800">{{ $totalComments }}</div>
+                        <div class="text-xs text-gray-600">Total Komentar</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">

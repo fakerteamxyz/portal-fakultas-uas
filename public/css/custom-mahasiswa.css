@@ -1,0 +1,95 @@
+/* Custom styles for Mahasiswa alerts */
+.alert {
+    animation: alertFadeIn 0.5s ease-in-out;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    transition: all 0.3s ease;
+}
+
+.alert:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+@keyframes alertFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Better spacing for dismissible alerts */
+.alert-dismissible {
+    padding-right: 3rem;
+}
+
+/* Hover effect for buttons */
+.btn-outline-danger:hover {
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+.btn-outline-primary:hover {
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.5);
+}
+
+.btn-success:hover, .btn-outline-success:hover {
+    box-shadow: 0 0 8px rgba(25, 135, 84, 0.5);
+}
+
+/* Comment Card Enhancements */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Form field focus enhancement */
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* User avatar animation */
+.rounded-circle {
+    transition: all 0.3s ease;
+}
+
+.rounded-circle:hover {
+    transform: scale(1.1);
+}
+
+/* Admin reply highlight */
+.admin-reply {
+    border-left: 3px solid #dc3545 !important;
+    transition: all 0.3s ease;
+}
+
+.admin-reply:hover {
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.new-reply {
+    animation: highlightNewReply 2s ease-in-out 3;
+}
+
+@keyframes highlightNewReply {
+    0% { background-color: rgba(220, 53, 69, 0.1); }
+    50% { background-color: rgba(220, 53, 69, 0.2); }
+    100% { background-color: rgba(220, 53, 69, 0.1); }
+}
+
+/* Comment highlight when scrolled to */
+.highlight-comment {
+    animation: highlightBackground 1s ease-in-out;
+}
+
+@keyframes highlightBackground {
+    0% { background-color: rgba(13, 110, 253, 0.1); }
+    50% { background-color: rgba(13, 110, 253, 0.2); }
+    100% { background-color: rgba(13, 110, 253, 0.1); }
+}

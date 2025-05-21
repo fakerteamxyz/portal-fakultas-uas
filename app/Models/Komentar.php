@@ -9,7 +9,7 @@ class Komentar extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'isi', 'commentable_id', 'commentable_type', 'parent_id'];
+    protected $fillable = ['user_id', 'isi', 'commentable_id', 'commentable_type', 'parent_id', 'is_read'];
 
     public function user()
     {

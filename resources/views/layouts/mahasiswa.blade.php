@@ -11,6 +11,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         {{-- Tambahkan Bootstrap Icons --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        {{-- Custom Mahasiswa Styles --}}
+        <link href="{{ asset('css/custom-mahasiswa.css') }}" rel="stylesheet">
         
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -34,10 +36,33 @@
 
             <!-- Page Content -->
             <main>
+                <div class="container mt-4">
+                    @include('mahasiswa.partials.alerts')
+                </div>
                 @yield('content')
             </main>
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('js/comment-enhancements.js') }}"></script>
+        <script>
+            // Auto dismiss alerts after 5 seconds
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    var alerts = document.querySelectorAll('.alert');
+                    alerts.forEach(function(alert) {
+                        var bsAlert = new bootstrap.Alert(alert);
+                        setTimeout(function() {
+                            bsAlert.close();
+                        }, 5000);
+                    });
+                }, 500);
+                
+                // Track last time admin replies were checked
+                if (document.querySelector('.information-detail-page')) {
+                    localStorage.setItem('lastAdminReplyCheck', new Date().toISOString());
+                }
+            });
+        </script>
     </body>
 </html>

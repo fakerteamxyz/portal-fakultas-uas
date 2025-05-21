@@ -1,0 +1,99 @@
+/* Custom styles for SB Admin 2 alerts */
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-danger {
+    border-left: 0.25rem solid #e74a3b !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+
+/* Enhanced Animation for alerts */
+.alert {
+    animation: alertFadeIn 0.5s ease-in-out;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    transition: all 0.3s ease;
+}
+
+.alert:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+@keyframes alertFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Better spacing for dismissible alerts */
+.alert-dismissible {
+    padding-right: 4rem;
+}
+
+/* Hover effect for reply and delete buttons */
+.btn-outline-danger:hover {
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+.btn-primary:hover, .btn-outline-primary:hover {
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+.btn-success:hover {
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+/* Comment Card Enhancements */
+.comment-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Notification Badge Animation */
+.badge-counter {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+/* Highlight for new comments */
+.new-comment {
+    animation: fadeBackground 2s ease-in-out 3;
+}
+
+@keyframes fadeBackground {
+    0% { background-color: rgba(255, 193, 7, 0.1); }
+    50% { background-color: rgba(255, 193, 7, 0.3); }
+    100% { background-color: rgba(255, 193, 7, 0.1); }
+}

@@ -38,6 +38,13 @@ class InformasiController extends Controller
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'agenda_id' => 'nullable|exists:agendas,id',
+        ], [
+            'judul.required' => 'Judul informasi harus diisi',
+            'judul.max' => 'Judul terlalu panjang (maksimal 255 karakter)',
+            'konten.required' => 'Konten informasi harus diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif',
+            'gambar.max' => 'Ukuran gambar maksimal 2MB',
         ]);
 
         $data = [
@@ -57,7 +64,7 @@ class InformasiController extends Controller
         }
 
         Informasi::create($data);
-        return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil ditambahkan.');
+        return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil ditambahkan. ' . ($request->has('is_published') ? 'Informasi sudah dipublikasikan dan dapat dilihat oleh mahasiswa.' : 'Informasi disimpan sebagai draft dan tidak akan terlihat oleh mahasiswa.'));
     }
 
     /**
@@ -66,6 +73,12 @@ class InformasiController extends Controller
     public function show(string $id)
     {
         $informasi = Informasi::with(['user', 'agenda', 'comments.user', 'comments.replies.user'])->findOrFail($id);
+
+        // Mark all comments of this information as read
+        if ($informasi->allComments->count() > 0) {
+            $informasi->allComments()->update(['is_read' => true]);
+        }
+
         return view('admin.informasi.show', compact('informasi'));
     }
 
@@ -111,7 +124,8 @@ class InformasiController extends Controller
         }
 
         $informasi->update($data);
-        return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil diupdate.');
+        $statusMessage = $request->has('is_published') ? 'Informasi dipublikasikan dan dapat dilihat oleh mahasiswa.' : 'Informasi disimpan sebagai draft dan tidak akan terlihat oleh mahasiswa.';
+        return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil diupdate. ' . $statusMessage);
     }
 
     /**
@@ -124,7 +138,17 @@ class InformasiController extends Controller
             unlink(public_path($informasi->gambar));
         }
 
+        // Check if there are comments
+        $commentCount = $informasi->allComments()->count();
+
+        // Delete the information
+        $judul = $informasi->judul;
         $informasi->delete();
-        return redirect()->route('admin.informasi.index')->with('success', 'Informasi berhasil dihapus.');
+
+        if ($commentCount > 0) {
+            return redirect()->route('admin.informasi.index')->with('info', "Informasi \"$judul\" berhasil dihapus beserta $commentCount komentar terkait.");
+        } else {
+            return redirect()->route('admin.informasi.index')->with('success', "Informasi \"$judul\" berhasil dihapus.");
+        }
     }
 }

@@ -29,11 +29,13 @@ class KomentarController extends Controller
             'commentable_id' => $informasi->id,
             'commentable_type' => Informasi::class,
             'parent_id' => $request->parent_id,
+            'is_read' => false,
         ]);
 
         $komentar->save();
 
-        return redirect()->back()->with('success', $request->parent_id ? 'Balasan berhasil ditambahkan.' : 'Komentar berhasil ditambahkan.');
+        $actionType = $request->parent_id ? 'Balasan' : 'Komentar';
+        return redirect()->back()->with('success', "$actionType berhasil ditambahkan. Admin akan melihat komentar Anda.");
     }
 
     /**
@@ -46,7 +48,13 @@ class KomentarController extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini.');
         }
 
+        // Check if this comment has replies
+        if ($komentar->replies && $komentar->replies->count() > 0) {
+            return redirect()->back()->with('warning', 'Komentar yang memiliki balasan tidak dapat dihapus. Hubungi admin jika diperlukan.');
+        }
+
+        $commentType = $komentar->parent_id ? 'Balasan' : 'Komentar';
         $komentar->delete();
-        return redirect()->back()->with('success', 'Komentar berhasil dihapus.');
+        return redirect()->back()->with('success', "$commentType berhasil dihapus.");
     }
 }

@@ -4,13 +4,6 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Kelola Komentar</h1>
     
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Komentar</h6>
@@ -42,7 +35,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="mb-2">{{ $komentar->isi }}</div>
+                                    <div class="mb-2 {{ !$komentar->is_read ? 'fw-bold' : '' }}">{{ $komentar->isi }}</div>
                                     
                                     @if($komentar->replies->count() > 0)
                                         <div class="mt-2">
@@ -52,7 +45,7 @@
                                             
                                             <div class="collapse" id="replies-{{ $komentar->id }}">
                                                 @foreach($komentar->replies as $reply)
-                                                    <div class="card card-body mb-2 bg-light">
+                                                    <div class="card card-body mb-2 bg-light comment-card">
                                                         <div class="d-flex justify-content-between">
                                                             <div class="d-flex">
                                                                 <div class="me-2">
@@ -68,7 +61,7 @@
                                                             </div>
                                                             
                                                             <div>
-                                                                <form action="{{ route('admin.komentar.destroy', $reply->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?')">
+                                                                <form action="{{ route('admin.komentar.destroy', $reply->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus balasan ini dari {{ $reply->user->name }}?')">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-sm btn-danger">
@@ -111,7 +104,7 @@
                                 </td>
                                 <td>{{ $komentar->created_at->format('d M Y, H:i') }}</td>
                                 <td>
-                                    <form action="{{ route('admin.komentar.destroy', $komentar->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?')">
+                                    <form action="{{ route('admin.komentar.destroy', $komentar->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini dari {{ $komentar->user->name }}?\n\nJika komentar ini memiliki balasan, Anda perlu menghapus balasan terlebih dahulu.')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">

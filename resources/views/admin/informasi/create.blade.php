@@ -34,13 +34,20 @@
             <small class="form-text text-muted">Upload gambar yang akan ditampilkan pada slider informasi. Format: JPG, PNG, GIF. Maksimal 2MB.</small>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="is_published" id="is_published">
+            <input class="form-check-input" type="checkbox" name="is_published" id="is_published" checked>
             <label class="form-check-label" for="is_published">
                 Publikasikan sekarang
             </label>
+            <small class="form-text d-block text-muted">Jika dicentang, informasi akan langsung terlihat oleh mahasiswa.</small>
         </div>
-        <button type="submit" class="btn btn-success">Simpan</button>
-        <a href="{{ route('admin.informasi.index') }}" class="btn btn-secondary">Batal</a>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save mr-1"></i> Simpan Informasi
+            </button>
+            <a href="{{ route('admin.informasi.index') }}" class="btn btn-secondary">
+                <i class="fas fa-times mr-1"></i> Batal
+            </a>
+        </div>
     </form>
 </div>
 @endsection
