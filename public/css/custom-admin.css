@@ -90,6 +90,13 @@
     margin-right: 0;
 }
 
+/* Enhanced icon hover effect for collapsed sidebar */
+.sidebar.toggled .nav-item .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+}
+
 /* Animation for sidebar toggle */
 .sidebar {
     transition: all 0.3s ease-in-out;
