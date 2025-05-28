@@ -80,7 +80,7 @@ class InformasiController extends Controller
 
         return view('dosen.informasi.show', compact('informasi'));
     }
-    
+
     /**
      * Display any published information, allowing dosen to reply to student comments.
      */
@@ -89,7 +89,7 @@ class InformasiController extends Controller
         $informasi = Informasi::where('is_published', 1)
             ->with(['user', 'agenda', 'comments.user', 'comments.replies.user'])
             ->findOrFail($id);
-            
+
         return view('dosen.informasi.view_published', compact('informasi'));
     }
 

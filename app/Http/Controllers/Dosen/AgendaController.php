@@ -18,7 +18,7 @@ class AgendaController extends Controller
         $agendas = Agenda::where('user_id', Auth::id())
             ->latest()
             ->paginate(10);
-            
+
         return view('dosen.agenda.index', compact('agendas'));
     }
 
@@ -45,7 +45,7 @@ class AgendaController extends Controller
 
         $data = $validated;
         $data['user_id'] = Auth::id();
-        
+
         try {
             $agenda = Agenda::create($data);
             return redirect()->route('dosen.agenda.index')
@@ -127,7 +127,7 @@ class AgendaController extends Controller
             return redirect()->route('dosen.agenda.index')
                 ->with('error', 'Anda tidak memiliki izin untuk menghapus agenda ini');
         }
-        
+
         try {
             $agenda->delete();
             return redirect()->route('dosen.agenda.index')

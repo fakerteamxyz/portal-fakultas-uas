@@ -37,9 +37,6 @@
     <script src="{{ asset('sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/js/sb-admin-2.min.js') }}"></script>
     <script src="{{ asset('js/comment-enhancements.js') }}"></script>
-    <script src="{{ asset('js/sidebar-override.js') }}"></script>
-    <script src="{{ asset('js/sidebar-final-fix.js') }}"></script>
-    
     <!-- Auto-dismiss alerts after 5 seconds -->
     <script>
         $(document).ready(function() {
@@ -52,12 +49,32 @@
                     $(this).remove();
                 });
             }, 5000);
-            
-            // Sidebar toggle functionality is now handled in sidebar-override.js
         });
     </script>
     
     <!-- Page specific scripts -->
     @yield('scripts')
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Apakah Anda yakin ingin logout dari dashboard?</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+            <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn btn-danger" type="submit">Logout</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

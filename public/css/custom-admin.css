@@ -61,55 +61,7 @@
     transform: rotate(15deg);
 }
 
-/* Styles for toggled sidebar */
-.sidebar.toggled .sidebar-brand-text {
-    display: none;
-}
-
-.sidebar.toggled .sidebar-brand-icon {
-    margin-right: 0;
-}
-
-/* Improved sidebar toggle behavior */
-.sidebar.toggled {
-    width: 4.5rem !important; /* Reduced from 6.5rem to make it more compact */
-    position: relative;
-    overflow: visible !important; /* Ensure the sidebar doesn't jump */
-}
-
-.sidebar.toggled .nav-item .nav-link {
-    text-align: center;
-    padding: .75rem 1rem;
-    width: 4.5rem;
-    position: relative;
-}
-
-.sidebar.toggled .nav-item .nav-link span {
-    display: none !important; /* Hide text completely */
-}
-
-.sidebar.toggled .nav-item .nav-link i {
-    font-size: 1.2rem; /* Slightly larger icons */
-    margin-right: 0;
-}
-
-/* Enhanced icon hover effect for collapsed sidebar */
-.sidebar.toggled .nav-item .nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
-    border-radius: 0.25rem;
-    transition: all 0.2s ease-in-out;
-}
-
-/* Prevent any animations on the sidebar when in toggled state */
-.sidebar.toggled * {
-    transition: none !important;
-}
-
-/* Prevent hover expansions */
-.sidebar.toggled:hover {
-    width: 4.5rem !important;
-    overflow: visible !important;
-}
+/* Remove all custom sidebar CSS overrides below this line, use only SB Admin 2 default sidebar styles */
 
 /* Animation for sidebar toggle */
 .sidebar {
