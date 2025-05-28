@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon">
-            <i class="fas fa-chalkboard-teacher"></i>
+            <img src="{{ asset('image/logounp.png') }}" alt="Logo" style="height:36px;">
         </div>
         <div class="sidebar-brand-text mx-3">Dosen Fakultas</div>
     </a>

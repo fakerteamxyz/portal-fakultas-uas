@@ -5,6 +5,11 @@
             <p class="mb-0 mt-2 small">Silakan masuk ke akun Anda</p>
         </div>
         <div class="card-body p-4">
+            <!-- Logo UNP -->
+            <div class="text-center mb-4">
+                <img src="{{ asset('image/logounp.png') }}" alt="Logo UNP" style="height:56px;">
+            </div>
+
             <!-- Session Status -->
             @if (session('status'))
                 <div class="alert alert-success mb-3">

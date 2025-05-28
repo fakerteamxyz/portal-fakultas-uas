@@ -54,10 +54,20 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="#">
-                <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:40px;"> Portal Fakultas
+            <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="#">
+                <img src="{{ asset('image/logounp.png') }}" alt="Logo" style="height:40px;"> 
+                <span class="ms-2">Portal Informasi Fakultas Teknik</span>
             </a>
-            <div class="d-flex gap-2">
+            <ul class="navbar-nav flex-row ms-auto align-items-center gap-2">
+                <li class="nav-item"><a class="nav-link" href="#informasi">Informasi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#agenda">Agenda</a></li>
+                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
+                <li class="nav-item"><a class="nav-link" href="#mingguan">Mingguan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#kunjungan">Kunjungan Mahasiswa</a></li>
+                <li class="nav-item"><a class="nav-link" href="#kemahasiswaan">Kemahasiswaan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
+            </ul>
+            <div class="d-flex gap-2 ms-3">
                 @auth
                     <!-- Show logout button if logged in -->
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
@@ -73,28 +83,8 @@
         </div>
     </nav>
     
-    <!-- Category Navigation -->
-    <div class="bg-light py-2 mb-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="nav nav-pills nav-fill">
-                        <a class="nav-link text-dark" href="#informasi"><i class="bi bi-megaphone-fill me-1"></i> Informasi</a>
-                        <a class="nav-link text-dark" href="#agenda"><i class="bi bi-calendar-event me-1"></i> Agenda</a>
-                        @foreach(\App\Models\KategoriAgenda::all() as $kategori)
-                            <a class="nav-link text-dark" href="#agenda-{{ $kategori->id }}">
-                                <i class="bi bi-tag-fill me-1"></i> {{ $kategori->nama }}
-                            </a>
-                        @endforeach
-                        <a class="nav-link text-dark" href="#komentar"><i class="bi bi-chat-quote-fill me-1"></i> Testimoni</a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <section class="hero fade-in">
-        <h1 class="display-4 fw-bold mb-3">Selamat Datang di Portal Fakultas</h1>
+        <h1 class="display-4 fw-bold mb-3">Selamat Datang di Portal Fakultas Teknik</h1>
         <p class="lead mb-4">Akses informasi, agenda, dan layanan kampus dengan mudah dan cepat.</p>
         <a href="#informasi" class="btn btn-light btn-lg shadow">Informasi Terbaru <i class="bi bi-arrow-down"></i></a>
     </section>

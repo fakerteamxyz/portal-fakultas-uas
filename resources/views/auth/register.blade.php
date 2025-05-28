@@ -1,7 +1,8 @@
 <x-guest-layout>
     <div class="card auth-card">
-        <div class="auth-header">
-            <h4 class="m-0 fw-bold">Daftar Akun Mahasiswa</h4>
+        <div class="auth-header text-center">
+            <img src="{{ asset('image/logounp.png') }}" alt="Logo UNP" style="height:48px;">
+            <h4 class="m-0 fw-bold mt-2">Daftar Akun Mahasiswa</h4>
             <p class="mb-0 mt-2 small">Silakan isi form untuk membuat akun baru</p>
         </div>
         <div class="card-body p-4">
