@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Mahasiswa\InformasiController as MahasiswaInformasiController;
 use App\Http\Controllers\Mahasiswa\KomentarController as MahasiswaKomentarController;
+use App\Http\Controllers\Staff\AgendaController as StaffAgendaController;
+use App\Http\Controllers\Staff\InformasiController as StaffInformasiController;
+use App\Http\Controllers\Staff\KomentarController as StaffKomentarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +56,14 @@ Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->grou
 Route::middleware(['auth', 'role:staff'])->get('/staff/dashboard', function () {
     return view('staff.dashboard'); // akan SB Admin 2
 })->name('staff.dashboard');
+
+Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
+    Route::resource('agenda', StaffAgendaController::class);
+    Route::resource('informasi', StaffInformasiController::class);
+    Route::resource('komentar', StaffKomentarController::class)->only(['store', 'destroy']);
+    Route::get('list-agenda', [StaffAgendaController::class, 'listAgenda'])->name('agenda.list');
+    Route::get('list-informasi', [StaffInformasiController::class, 'listInformasi'])->name('informasi.list');
+});
 
 Route::middleware(['auth', 'role:mahasiswa'])->get('/landing', function () {
     return view('mahasiswa.landing'); // hanya tampilan landing page

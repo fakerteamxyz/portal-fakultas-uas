@@ -57,6 +57,9 @@
                         @endif
                     </div>
                     <div>
+                        <a href="/" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-house-door me-1"></i> Landing Page
+                        </a>
                         <a href="{{ route('register') }}" class="btn btn-outline-primary me-2">
                             <i class="bi bi-person-plus me-1"></i> Daftar
                         </a>
