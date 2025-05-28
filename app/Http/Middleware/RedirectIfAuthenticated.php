@@ -21,8 +21,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // If user is already authenticated, redirect them to home page
-                return redirect('/');
+                $role = Auth::guard($guard)->user()->role ?? null;
+                return match ($role) {
+                    'admin' => redirect()->route('admin.dashboard'),
+                    'dosen' => redirect()->route('dosen.dashboard'),
+                    'staff' => redirect()->route('staff.dashboard'),
+                    'mahasiswa' => redirect('/'), // atau route mahasiswa jika ada
+                    default => redirect('/'),
+                };
             }
         }
 
