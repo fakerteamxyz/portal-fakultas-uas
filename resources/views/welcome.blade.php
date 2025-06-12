@@ -49,6 +49,45 @@
             background-color: #4e73df;
             color: white !important;
         }
+        
+        /* Navbar and dropdown styling */
+        .navbar-nav .nav-link {
+            color: #4e73df !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #2e59d9 !important;
+            transform: translateY(-2px);
+        }
+        .dropdown-menu {
+            border: none;
+            border-radius: 0.5rem;
+        }
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(78, 115, 223, 0.1);
+            color: #4e73df;
+            transform: translateX(5px);
+        }
+        .dropdown-divider {
+            margin: 0.3rem 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -58,16 +97,43 @@
                 <img src="{{ asset('image/logounp.png') }}" alt="Logo" style="height:40px;"> 
                 <span class="ms-2">Portal Informasi Fakultas Teknik</span>
             </a>
-            <ul class="navbar-nav flex-row ms-auto align-items-center gap-2">
-                <li class="nav-item"><a class="nav-link" href="#informasi">Informasi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#agenda">Agenda</a></li>
-                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
-                <li class="nav-item"><a class="nav-link" href="#mingguan">Mingguan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kunjungan">Kunjungan Mahasiswa</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kemahasiswaan">Kemahasiswaan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
-            </ul>
-            <div class="d-flex gap-2 ms-3">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#informasi">Informasi</a></li>
+                    
+                    <!-- Dropdown Agenda -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarAgendaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Agenda
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarAgendaDropdown">
+                            <li><a class="dropdown-item" href="#agenda">Semua Agenda</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            @foreach($kategoriAgendas as $kategori)
+                            <li><a class="dropdown-item" href="#agenda-{{ $kategori->id }}">{{ $kategori->nama }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    
+                    <!-- Dropdown Informasi -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarInfoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Layanan
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarInfoDropdown">
+                            <li><a class="dropdown-item" href="#berita">Berita</a></li>
+                            <li><a class="dropdown-item" href="#mingguan">Mingguan</a></li>
+                            <li><a class="dropdown-item" href="#kunjungan">Kunjungan Mahasiswa</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="#kemahasiswaan">Kemahasiswaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimoni">Testimoni</a></li>
+                </ul>
+                <div class="d-flex gap-2 ms-3">
                 @auth
                     <!-- Show logout button if logged in -->
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
@@ -239,7 +305,7 @@
     @endforeach
     <!-- KOMENTAR SECTION -->
     <section class="container my-5 fade-in" id="komentar">
-        <h2 class="mb-4 text-center fw-bold">Testimoni Mahasiswa</h2>
+        <h2 class="mb-4 text-center fw-bold">Komentar Mahasiswa</h2>
         <div class="row g-4">
             @foreach(\App\Models\Komentar::with('user')->latest()->take(3)->get() as $komentar)
             <div class="col-md-4">
@@ -270,26 +336,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all dropdowns
+            const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+            dropdownElementList.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl);
+            });
+            
             // Get all nav links
             const navLinks = document.querySelectorAll('.nav-pills .nav-link');
             
-            // Add click event to smooth scroll
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
+            // Add smooth scrolling to all anchor links
+            function addSmoothScroll(linkSelector) {
+                const links = document.querySelectorAll(linkSelector);
+                links.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        if (this.getAttribute('href').startsWith('#')) {
+                            e.preventDefault();
+                            const targetId = this.getAttribute('href');
+                            const targetElement = document.querySelector(targetId);
+                            
+                            if (targetElement) {
+                                window.scrollTo({
+                                    top: targetElement.offsetTop - 80,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
                     });
-                    
-                    // Update active state
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
                 });
-            });
+            }
+            
+            // Apply smooth scrolling to nav links and dropdown items
+            addSmoothScroll('.navbar-nav .nav-link[href^="#"]');
+            addSmoothScroll('.dropdown-menu .dropdown-item[href^="#"]');
             
             // Update active state on scroll
             window.addEventListener('scroll', function() {

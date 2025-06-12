@@ -28,7 +28,11 @@
             </div>
             {{-- Footer --}}
             <footer class="sticky-footer bg-white py-3 text-center">
-                <span>Copyright © Portal Fakultas {{ date('Y') }}</span>
+                <div class="container">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img src="{{ asset('image/logounp.png') }}" alt="UNP Logo" height="50">
+                    </div>
+                </div>
             </footer>
         </div>
     </div>

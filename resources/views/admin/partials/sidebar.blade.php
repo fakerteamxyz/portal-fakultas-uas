@@ -18,23 +18,32 @@
             <span>Kelola User</span>
         </a>
     </li>
+    <!-- Nav Item - Informasi -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.informasi.index') }}">
             <i class="fas fa-fw fa-bullhorn"></i>
             <span>Kelola Informasi</span>
         </a>
     </li>
+
+    <!-- Nav Item - Agenda Dropdown -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.agenda.index') }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAgenda" aria-expanded="false" aria-controls="collapseAgenda">
             <i class="fas fa-fw fa-calendar"></i>
             <span>Kelola Agenda</span>
+            <i class="fas fa-angle-down ml-2"></i>
         </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.kategori-agenda.index') }}">
-            <i class="fas fa-fw fa-list"></i>
-            <span>Kategori Agenda</span>
-        </a>
+        <div id="collapseAgenda" class="collapse" aria-labelledby="headingAgenda" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menu Agenda:</h6>
+                <a class="collapse-item" href="{{ route('admin.agenda.index') }}">
+                    <i class="fas fa-fw fa-calendar-alt mr-1"></i> Daftar Agenda
+                </a>
+                <a class="collapse-item" href="{{ route('admin.kategori-agenda.index') }}">
+                    <i class="fas fa-fw fa-list mr-1"></i> Kategori Agenda
+                </a>
+            </div>
+        </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.komentar.index') }}">
