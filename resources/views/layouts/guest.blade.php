@@ -8,8 +8,9 @@
         <title>{{ config('app.name', 'Portal Fakultas') }}</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
         
         <!-- Bootstrap and FontAwesome -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,34 +18,197 @@
         
         <!-- Custom Styles -->
         <style>
+            :root {
+                --primary: #ff5252;
+                --secondary: #ffde59;
+                --accent: #4aff8b;
+                --dark: #121212;
+                --light: #f5f5f5;
+            }
+            
             body {
-                background: linear-gradient(120deg, #f8f9fa 0%, #e9ecef 100%);
+                font-family: 'Outfit', sans-serif;
+                background-color: var(--light);
+                color: var(--dark);
                 min-height: 100vh;
+                position: relative;
+                overflow-x: hidden;
             }
+            
             .auth-card {
-                border: none;
-                border-radius: 1rem;
-                box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s, box-shadow 0.3s;
+                background-color: white;
+                border: 6px solid var(--dark);
+                box-shadow: 12px 12px 0 var(--dark);
+                border-radius: 2px;
+                transition: transform 0.2s, box-shadow 0.2s;
+                margin-top: 2rem;
+                position: relative;
+                overflow: hidden;
             }
-            .auth-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+            
+            .auth-card::before {
+                content: '';
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                background-color: var(--accent);
+                border: 4px solid var(--dark);
+                top: -50px;
+                right: -50px;
+                transform: rotate(25deg);
+                z-index: 1;
             }
+            
             .auth-header {
-                background: linear-gradient(120deg, #4e73df 60%, #36b9cc 100%);
+                background-color: var(--secondary);
+                color: var(--dark);
+                padding: 2rem;
+                position: relative;
+                z-index: 2;
+                border-bottom: 6px solid var(--dark);
+            }
+            
+            .neo-btn {
+                background-color: var(--primary);
                 color: white;
-                border-radius: 1rem 1rem 0 0;
-                padding: 1.5rem;
-                text-align: center;
-            }
-            .btn-primary {
-                background: linear-gradient(120deg, #4e73df 60%, #36b9cc 100%);
-                border: none;
+                font-weight: 700;
                 padding: 0.6rem 1.5rem;
+                border: 4px solid var(--dark);
+                box-shadow: 6px 6px 0 var(--dark);
+                border-radius: 2px;
+                transition: transform 0.1s, box-shadow 0.1s;
+                position: relative;
+                z-index: 5;
+                text-decoration: none;
+                display: inline-block;
             }
-            .btn-link {
-                color: #4e73df;
+            
+            .neo-btn:hover {
+                transform: translate(2px, 2px);
+                box-shadow: 4px 4px 0 var(--dark);
+                color: white;
+            }
+            
+            .neo-btn:active {
+                transform: translate(6px, 6px);
+                box-shadow: 0px 0px 0 var(--dark);
+                color: white;
+            }
+            
+            .neo-btn-secondary {
+                background-color: var(--secondary);
+                color: var(--dark);
+            }
+            
+            .neo-btn-secondary:hover {
+                color: var(--dark);
+            }
+            
+            .neo-btn-accent {
+                background-color: var(--accent);
+                color: var(--dark);
+            }
+            
+            .neo-btn-accent:hover {
+                color: var(--dark);
+            }
+            
+            .neo-form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .neo-label {
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            
+            .neo-input-group {
+                position: relative;
+            }
+            
+            .neo-form-control {
+                border: 4px solid var(--dark);
+                border-radius: 2px;
+                padding: 0.8rem 1rem;
+                font-weight: 500;
+                width: 100%;
+                background: white;
+            }
+            
+            .neo-form-control:focus {
+                outline: none;
+                box-shadow: 6px 6px 0 rgba(18, 18, 18, 0.2);
+            }
+            
+            .neo-input-icon {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                background-color: var(--secondary);
+                border-right: 4px solid var(--dark);
+                font-size: 1.2rem;
+            }
+            
+            .neo-input-with-icon {
+                padding-left: 60px;
+            }
+            
+            .neo-navbar {
+                background-color: white;
+                border-bottom: 4px solid var(--dark);
+                padding: 1rem;
+            }
+            .errors-list {
+                margin-top: 0.5rem;
+                color: var(--primary);
+                font-weight: 600;
+            }
+            
+            .neo-check {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .neo-check input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                border: 3px solid var(--dark);
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                border-radius: 2px;
+                background-color: white;
+                cursor: pointer;
+                position: relative;
+            }
+            
+            .neo-check input[type="checkbox"]:checked {
+                background-color: var(--accent);
+            }
+            
+            .neo-check input[type="checkbox"]:checked::after {
+                content: '✓';
+                font-size: 16px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: var(--dark);
+                font-weight: bold;
+            }
+            
+            .neo-check label {
+                font-weight: 600;
+                margin-bottom: 0;
+                cursor: pointer;
             }
         </style>
 
@@ -52,13 +216,21 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top mb-4">
+        <nav class="navbar navbar-expand-lg neo-navbar sticky-top mb-4">
             <div class="container">
-                <a class="navbar-brand fw-bold text-primary" href="/">
-                    <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:40px;"> Portal Fakultas
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:48px; border: 3px solid var(--dark); margin-right:15px;"> 
+                    <span style="font-size:1.3rem; line-height:1.1; font-weight:900;">PORTAL<br>FAKULTAS TEKNIK</span>
                 </a>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
+                    @if(Route::has('login') && Route::currentRouteName() != 'login')
+                        <a href="{{ route('login') }}" class="neo-btn">LOGIN</a>
+                    @elseif(Route::has('register') && Route::currentRouteName() != 'register')
+                        <a href="{{ route('register') }}" class="neo-btn neo-btn-accent">DAFTAR</a>
+                    @endif
+                    <a href="/" class="neo-btn neo-btn-secondary">
+                        <i class="bi bi-house-door"></i>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -66,15 +238,28 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
+                    <div style="position:absolute; width:120px; height:120px; background:var(--primary); border:4px solid var(--dark); transform:rotate(35deg); top:40%; right:-50px; z-index:-1;"></div>
+                    <div style="position:absolute; width:80px; height:80px; background:var(--secondary); border:4px solid var(--dark); transform:rotate(15deg); top:30%; left:-20px; z-index:-1;"></div>
                     {{ $slot }}
                 </div>
             </div>
         </div>
         
-        <footer class="bg-primary text-white text-center py-4 mt-5">
-            <div class="container">
-                <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:32px;"> <br>
-                <span class="fw-bold">Portal Fakultas</span> &copy; {{ date('Y') }}
+        <footer class="text-center py-5 mt-5" style="background-color:var(--dark); color:white; position:relative; overflow:hidden;">
+            <div style="position:absolute; width:100px; height:100px; background:var(--primary); border:4px solid white; transform:rotate(45deg); top:-50px; right:10%;"></div>
+            <div style="position:absolute; width:80px; height:80px; background:var(--accent); border:4px solid white; transform:rotate(15deg); bottom:-30px; left:15%;"></div>
+            
+            <div class="container position-relative">
+                <div style="background:white; display:inline-block; border:4px solid white; padding:0.5rem; margin-bottom:1rem; transform:rotate(-2deg);">
+                    <img src="{{ asset('sb-admin-2/img/logo.png') }}" alt="Logo" style="height:48px;">
+                </div>
+                <div>
+                    <h3 class="fw-bold mb-3" style="font-size:2rem; text-transform:uppercase; letter-spacing:2px;">Portal Fakultas</h3>
+                    <p class="mb-3">Universitas Negeri Padang</p>
+                    <div style="border-top:1px solid rgba(255,255,255,0.2); padding-top:1.5rem; margin-top:1.5rem;">
+                        <span class="fw-bold">&copy; {{ date('Y') }}</span>
+                    </div>
+                </div>
             </div>
         </footer>
         

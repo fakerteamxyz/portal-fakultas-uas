@@ -1,19 +1,19 @@
 <x-guest-layout>
-    <div class="card auth-card">
+    <div class="auth-card">
         <div class="auth-header">
-            <h4 class="m-0 fw-bold">Login</h4>
-            <p class="mb-0 mt-2 small">Silakan masuk ke akun Anda</p>
+            <h2 class="m-0 fw-black" style="font-size:2.5rem; text-transform:uppercase;">LOGIN</h2>
+            <p class="mb-0 mt-2" style="font-weight:600; font-size:1.1rem;">Silakan masuk ke akun Anda</p>
         </div>
-        <div class="card-body p-4">
+        <div class="p-4">
             <!-- Logo UNP -->
             <div class="text-center mb-4">
-                <img src="{{ asset('image/logounp.png') }}" alt="Logo UNP" style="height:56px;">
+                <img src="{{ asset('image/logounp.png') }}" alt="Logo UNP" style="height:80px; border:4px solid var(--dark); padding:5px; transform:rotate(-3deg);">
             </div>
 
             <!-- Session Status -->
             @if (session('status'))
-                <div class="alert alert-success mb-3">
-                    {{ session('status') }}
+                <div style="background-color:var(--accent); border:4px solid var(--dark); box-shadow:6px 6px 0 var(--dark); padding:1rem; margin-bottom:1.5rem;">
+                    <p class="m-0 fw-bold">{{ session('status') }}</p>
                 </div>
             @endif
 
@@ -21,50 +21,51 @@
                 @csrf
 
                 <!-- Email Address -->
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Masukkan alamat email">
+                <div class="neo-form-group">
+                    <label for="email" class="neo-label">EMAIL</label>
+                    <div class="neo-input-group">
+                        <div class="neo-input-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <input id="email" type="email" class="neo-form-control neo-input-with-icon" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Masukkan alamat email">
                     </div>
                     @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="errors-list">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <!-- Password -->
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Masukkan password">
+                <div class="neo-form-group">
+                    <label for="password" class="neo-label">PASSWORD</label>
+                    <div class="neo-input-group">
+                        <div class="neo-input-icon">
+                            <i class="bi bi-lock-fill"></i>
+                        </div>
+                        <input id="password" type="password" class="neo-form-control neo-input-with-icon" name="password" required autocomplete="current-password" placeholder="Masukkan password">
                     </div>
                     @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="errors-list">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <!-- Remember Me -->
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                    <label class="form-check-label" for="remember_me">Ingat saya</label>
+                <div class="neo-check">
+                    <input type="checkbox" id="remember_me" name="remember">
+                    <label for="remember_me">Ingat saya</label>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div>
+                <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap">
+                    <div class="mb-3">
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-decoration-none">Lupa password?</a>
+                            <a href="{{ route('password.request') }}" style="font-weight:700; color:var(--primary); text-decoration:underline;">Lupa password?</a>
                         @endif
                     </div>
-                    <div>
-                        <a href="/" class="btn btn-outline-secondary me-2">
-                            <i class="bi bi-house-door me-1"></i> Landing Page
+                    <div class="d-flex gap-2 flex-wrap mb-3">
+                        <a href="{{ route('register') }}" class="neo-btn neo-btn-accent">
+                            <i class="bi bi-person-plus me-1"></i> DAFTAR
                         </a>
-                        <a href="{{ route('register') }}" class="btn btn-outline-primary me-2">
-                            <i class="bi bi-person-plus me-1"></i> Daftar
-                        </a>
-                        <button type="submit" class="btn btn-outline-primary">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                        <button type="submit" class="neo-btn">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> LOGIN
                         </button>
                     </div>
                 </div>
