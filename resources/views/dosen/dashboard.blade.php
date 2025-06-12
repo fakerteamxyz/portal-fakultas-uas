@@ -6,6 +6,24 @@
 </div>
 
 <div class="row">
+    <div class="col-lg-12 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Selamat datang, {{ Auth::user()->name }}!</h6>
+            </div>
+            <div class="card-body">
+                <p>Sebagai dosen, Anda dapat mengelola informasi dan agenda Fakultas Teknik.</p>
+                <p>Fitur utama: Membuat informasi akademik dan mengelola agenda kegiatan.</p>
+                <div class="mt-3">
+                    <a href="{{ route('dosen.informasi.index') }}" class="btn btn-primary me-2"><i class="fas fa-bullhorn me-1"></i> Kelola Informasi</a>
+                    <a href="{{ route('dosen.agenda.index') }}" class="btn btn-success"><i class="fas fa-calendar-plus me-1"></i> Kelola Agenda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
