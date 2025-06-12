@@ -1,0 +1,16 @@
+[33mcommit eaf2f49136bdcf3dc8dad1cd162beb370d5b5a23[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Fakhri Aditia Rahman <fakhriaditiarahman12@gmail.com>
+Date:   Fri Jun 13 00:00:51 2025 +0700
+
+    Perbaikan tampilan UI: Menambahkan dropdown menu di navigasi, mengganti footer dengan logo UNP, dan memperbaiki label 'Testimoni Mahasiswa' menjadi 'Komentar Mahasiswa'
+
+public/js/sidebar-final-fix.js
+public/js/sidebar-override.js
+public/sb-admin-2/img/logo.png
+resources/views/admin/partials/sidebar.blade.php
+resources/views/dosen/partials/sidebar.blade.php
+resources/views/layouts/admin.blade.php
+resources/views/layouts/dosen.blade.php
+resources/views/layouts/staff.blade.php
+resources/views/staff/partials/sidebar.blade.php
+resources/views/welcome.blade.php

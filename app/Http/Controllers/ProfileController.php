@@ -16,6 +16,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        // Use neobrutalism-styled view for mahasiswa users
+        if ($request->user()->role === 'mahasiswa') {
+            return view('profile.edit-mahasiswa', [
+                'user' => $request->user(),
+            ]);
+        }
+        
+        // Default view for other roles
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -33,6 +41,11 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        // Use success message for mahasiswa users
+        if ($request->user()->role === 'mahasiswa') {
+            return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui!');
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

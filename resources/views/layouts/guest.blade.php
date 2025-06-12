@@ -125,20 +125,34 @@
             
             .neo-input-group {
                 position: relative;
+                display: flex;
             }
             
             .neo-form-control {
                 border: 4px solid var(--dark);
                 border-radius: 2px;
-                padding: 0.8rem 1rem;
+                padding: 0.8rem 1.2rem;
                 font-weight: 500;
                 width: 100%;
                 background: white;
+                font-size: 1.05rem;
+                height: auto;
+                min-height: 58px;
+                box-sizing: border-box;
             }
             
             .neo-form-control:focus {
                 outline: none;
                 box-shadow: 6px 6px 0 rgba(18, 18, 18, 0.2);
+                background-color: #fff;
+                color: var(--dark);
+            }
+            
+            .neo-input-group {
+                position: relative;
+                display: flex;
+                width: 100%;
+                margin-bottom: 0.5rem;
             }
             
             .neo-input-icon {
@@ -153,10 +167,16 @@
                 background-color: var(--secondary);
                 border-right: 4px solid var(--dark);
                 font-size: 1.2rem;
+                z-index: 1;
             }
             
             .neo-input-with-icon {
-                padding-left: 60px;
+                padding: 0.8rem 1.2rem 0.8rem 60px;
+                text-indent: 0;
+                letter-spacing: 0.5px;
+                color: var(--dark);
+                overflow: visible;
+                text-overflow: ellipsis;
             }
             
             .neo-navbar {
@@ -168,6 +188,41 @@
                 margin-top: 0.5rem;
                 color: var(--primary);
                 font-weight: 600;
+            }
+            
+            ::placeholder {
+                color: rgba(18, 18, 18, 0.5);
+                opacity: 1;
+                font-size: 0.95rem;
+            }
+            
+            :-ms-input-placeholder {
+                color: rgba(18, 18, 18, 0.5);
+                font-size: 0.95rem;
+            }
+            
+            ::-ms-input-placeholder {
+                color: rgba(18, 18, 18, 0.5);
+                font-size: 0.95rem;
+            }
+            
+            /* Perbaikan untuk input field */
+            input.neo-form-control {
+                display: block;
+                width: 100%;
+                padding-left: 60px;
+            }
+            
+            /* Pastikan text tidak terpotong pada browser mobile */
+            @media (max-width: 576px) {
+                .neo-input-with-icon {
+                    padding-left: 55px;
+                    font-size: 0.95rem;
+                }
+                
+                .neo-input-icon {
+                    width: 45px;
+                }
             }
             
             .neo-check {

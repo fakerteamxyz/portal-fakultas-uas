@@ -1,15 +1,15 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon">
-            <img src="{{ asset('image/logounp.png') }}" alt="Logo" style="height:36px;">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: var(--dark); border-right: 6px solid var(--primary);">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#" style="background-color: var(--primary); border-bottom: 4px solid white;">
+        <div class="sidebar-brand-icon" style="transform: rotate(-5deg);">
+            <img src="{{ asset('image/logounp.png') }}" alt="Logo" style="height:40px; border: 3px solid white; padding: 2px;">
         </div>
-        <div class="sidebar-brand-text mx-3">Staff Fakultas</div>
+        <div class="sidebar-brand-text mx-3" style="font-family: 'Outfit', sans-serif; font-weight: 900; letter-spacing: 1px;">Staff Fakultas</div>
     </a>
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider" style="border-color: var(--primary); opacity: 1; border-width: 2px;">
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('staff.dashboard') }}">
+        <a class="nav-link" href="{{ route('staff.dashboard') }}" style="margin-bottom: 5px; border-left: 4px solid transparent; transition: all 0.3s;">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span style="font-weight: 700; letter-spacing: 0.5px;">Dashboard</span>
         </a>
     </li>
     <!-- Nav Item - Agenda Dropdown -->
