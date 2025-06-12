@@ -15,7 +15,7 @@
                 <p>Fitur utama: Membuat dan menjadwalkan agenda kegiatan internal, serta mengelola informasi administrasi.</p>
                 <div class="mt-3">
                     <a href="{{ route('staff.agenda.index') }}" class="btn btn-primary me-2"><i class="fas fa-calendar-plus me-1"></i> Kelola Agenda Internal</a>
-                    <a href="{{ route('staff.informasi-admin.index') }}" class="btn btn-info"><i class="fas fa-clipboard-list me-1"></i> Kelola Informasi Admin</a>
+                    <a href="{{ route('staff.informasi.index') }}" class="btn btn-info"><i class="fas fa-clipboard-list me-1"></i> Kelola Informasi Admin</a>
                 </div>
             </div>
         </div>
