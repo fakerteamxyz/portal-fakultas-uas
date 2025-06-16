@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <style>
         :root {
             --primary: #ff5252;
@@ -26,6 +30,81 @@
             overflow-x: hidden;
         }
         
+        /* FullCalendar Neobrutalism Styling */
+        .fc .fc-toolbar {
+            margin-bottom: 1.5em;
+        }
+        
+        .fc .fc-button {
+            background-color: var(--primary);
+            border: 2px solid var(--dark);
+            box-shadow: 3px 3px 0 var(--dark);
+            font-weight: bold;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        
+        .fc .fc-button:hover {
+            background-color: var(--primary);
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 var(--dark);
+        }
+        
+        .fc .fc-button-primary:not(:disabled).fc-button-active, 
+        .fc .fc-button-primary:not(:disabled):active {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .fc-daygrid-day-frame {
+            border: 1px solid #e0e0e0;
+            transition: background-color 0.2s;
+        }
+        
+        .fc-daygrid-day-frame:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .fc-h-event {
+            border-radius: 0;
+            padding: 2px 5px;
+            margin: 1px 0;
+        }
+        
+        .fc-toolbar-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        /* Mobile responsiveness for calendar */
+        @media (max-width: 767px) {
+            .fc .fc-toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .fc .fc-toolbar-title {
+                font-size: 1.2rem;
+            }
+            
+            .fc-header-toolbar .fc-toolbar-chunk {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            
+            .fc-view-harness {
+                height: auto !important;
+                min-height: 400px;
+            }
+            
+            .neo-tooltip .tooltip-inner {
+                max-width: 250px !important;
+                padding: 8px !important;
+            }
+        }
+
         /* Neobrutalism Hero */
         .hero {
             background-color: var(--secondary);
@@ -237,6 +316,7 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#informasi">INFORMASI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#calendar">KALENDER</a></li>
                     
                     <!-- Dropdown Agenda -->
                     <li class="nav-item dropdown">
@@ -428,6 +508,40 @@
         </div>
     </section>
 
+    <!-- CALENDAR SECTION -->
+    <section class="container my-5 neo-fade-in" id="calendar" style="position:relative; z-index:1;">
+        <div style="position:absolute; width:150px; height:150px; background:var(--accent); border:5px solid var(--dark); transform:rotate(-10deg); z-index:-1; top:-20px; left:30px;"></div>
+        
+        <div class="text-center mb-5">
+            <h2 class="neo-heading" style="background-color:var(--secondary); color:var(--dark);">Kalender Kegiatan & Informasi</h2>
+            <p class="lead mt-3">Temukan seluruh jadwal kegiatan dan informasi fakultas dalam satu tampilan</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="neo-card p-4" style="background-color:white;">
+                    <div id="calendar"></div>
+                    
+                    <!-- Calendar Legend -->
+                    <div class="calendar-legend mt-4 p-3 border rounded d-flex flex-wrap gap-3 justify-content-center">
+                        <div class="d-flex align-items-center">
+                            <span style="display:inline-block; width:20px; height:20px; background-color:#ff5252; border: 2px solid #121212; margin-right:5px;"></span>
+                            <span>Agenda & Informasi</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span style="display:inline-block; width:20px; height:20px; background-color:#ffde59; border: 2px solid #121212; margin-right:5px;"></span>
+                            <span>Agenda</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span style="display:inline-block; width:20px; height:20px; background-color:#4aff8b; border: 2px solid #121212; margin-right:5px;"></span>
+                            <span>Informasi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- AGENDA BY CATEGORY SECTIONS -->
     @foreach($kategoriAgendas as $kategori)
     <section class="container my-5 neo-fade-in" id="agenda-{{ $kategori->id }}">
@@ -530,6 +644,180 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize FullCalendar
+            const calendarEl = document.getElementById('calendar');
+            // Determine default view based on screen size
+            const initialView = window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth';
+            
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: initialView,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                themeSystem: 'bootstrap5',
+                // Responsive settings
+                windowResize: function(view) {
+                    if (window.innerWidth < 768) {
+                        calendar.changeView('listMonth');
+                    } else {
+                        calendar.changeView('dayGridMonth');
+                    }
+                },
+                events: function(info, successCallback, failureCallback) {
+                    const month = info.start.getMonth() + 1; // FullCalendar months are 0-indexed
+                    const year = info.start.getFullYear();
+                    
+                    // Use the optimized calendar endpoint that combines both data types
+                    $.ajax({
+                        url: '{{ url("api/v1/calendar") }}',
+                        data: { month: month, year: year },
+                        success: function(response) {
+                            const informasiResponse = response.informasi;
+                            const agendaResponse = response.agenda;
+                            
+                            // Process informasi events
+                            const informasiEvents = informasiResponse.data.map(function(info) {
+                                // Use agenda date if available, otherwise use created_at
+                                let eventDate = null;
+                                if (info.agenda && info.agenda.date) {
+                                    eventDate = info.agenda.date;
+                                } else {
+                                    eventDate = info.created_at.split('T')[0]; // Extract YYYY-MM-DD
+                                }
+                                
+                                return {
+                                    id: 'informasi-' + info.id,
+                                    title: info.title,
+                                    start: eventDate,
+                                    url: info.url || '{{ url("/informasi") }}' + '/' + info.id,
+                                    backgroundColor: info.agenda ? '#ff5252' : '#4aff8b',
+                                    borderColor: '#121212',
+                                    textColor: info.agenda ? 'white' : '#121212',
+                                    description: info.content ? (info.content.length > 100 ? info.content.substring(0, 100) + '...' : info.content) : '',
+                                    extendedProps: {
+                                        hasAgenda: !!info.agenda,
+                                        type: info.agenda ? 'agenda-informasi' : 'informasi',
+                                        image: info.image
+                                    }
+                                };
+                            });
+                            
+                            // Process agenda events
+                            const agendaEvents = agendaResponse.data.map(function(agenda) {
+                                return {
+                                    id: 'agenda-' + agenda.id,
+                                    title: agenda.title,
+                                    start: agenda.date,
+                                    url: agenda.url || ('{{ url("/") }}' + '/agenda#' + agenda.id),
+                                    backgroundColor: '#ffde59',
+                                    borderColor: '#121212',
+                                    textColor: '#121212',
+                                    description: agenda.description || '',
+                                    extendedProps: {
+                                        hasAgenda: true,
+                                        type: 'agenda',
+                                        location: agenda.location
+                                    }
+                                };
+                            });
+                            
+                            // Combine all events
+                            const allEvents = [...informasiEvents, ...agendaEvents];
+                            successCallback(allEvents);
+                        },
+                        error: function(error) {
+                            console.error("Error fetching calendar data:", error);
+                            failureCallback(error);
+                        }
+                    });
+                },
+                eventDidMount: function(info) {
+                    // Add tooltips to calendar events
+                    const eventType = info.event.extendedProps.type;
+                    let badgeColor, icon, badgeText;
+                    
+                    // Determine badge color and icon based on event type
+                    if (eventType === 'agenda') {
+                        badgeColor = 'bg-warning text-dark';
+                        icon = 'calendar-event';
+                        badgeText = 'Agenda';
+                    } else if (eventType === 'agenda-informasi') {
+                        badgeColor = 'bg-danger';
+                        icon = 'calendar-check';
+                        badgeText = 'Agenda & Informasi';
+                    } else {
+                        badgeColor = 'bg-success';
+                        icon = 'info-circle';
+                        badgeText = 'Informasi';
+                    }
+                    
+                    // Location information for agenda
+                    let locationHtml = '';
+                    if (info.event.extendedProps.location) {
+                        locationHtml = `
+                            <div class="mt-2">
+                                <i class="bi bi-geo-alt"></i> ${info.event.extendedProps.location}
+                            </div>
+                        `;
+                    }
+                    
+                    // Buat tooltip content dengan styling yang lebih menarik
+                    const tooltipContent = `
+                        <div style="max-width: 300px;">
+                            <strong style="font-size: 1.1rem;">${info.event.title}</strong>
+                            <div class="mt-2 mb-2">
+                                ${info.event.extendedProps.description || ''}
+                                ${locationHtml}
+                            </div>
+                            <div>
+                                <span class="badge ${badgeColor}">
+                                    <i class="bi bi-${icon}"></i> ${badgeText}
+                                </span>
+                                <span class="badge bg-secondary">
+                                    <i class="bi bi-calendar"></i> ${info.event.start.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'})}
+                                </span>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Klik untuk melihat detail
+                            </div>
+                        </div>
+                    `;
+                    
+                    $(info.el).tooltip({
+                        title: tooltipContent,
+                        placement: 'top',
+                        trigger: 'hover',
+                        container: 'body',
+                        html: true,
+                        template: '<div class="tooltip neo-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="background-color: white; color: black; border: 3px solid #121212; box-shadow: 3px 3px 0 #121212; max-width: 350px; text-align: left; padding: 10px;"></div></div>'
+                    });
+                },
+                eventClick: function(info) {
+                    if (info.event.url) {
+                        window.location.href = info.event.url;
+                        info.jsEvent.preventDefault(); // prevent browser from following link
+                    }
+                },
+                // Custom styling
+                eventContent: function(arg) {
+                    const isAgenda = arg.event.extendedProps.hasAgenda;
+                    const icon = isAgenda ? '<i class="bi bi-calendar-event"></i> ' : '<i class="bi bi-info-circle"></i> ';
+                    
+                    return {
+                        html: '<div class="fc-event-main-frame" style="border: 3px solid #121212; box-shadow: 2px 2px 0 #121212;">' +
+                              '<div class="fc-event-title-container">' +
+                              '<div class="fc-event-title fc-sticky" style="font-weight: bold;">' + 
+                              icon + arg.event.title + 
+                              '</div>' +
+                              '</div>' +
+                              '</div>'
+                    };
+                }
+            });
+            calendar.render();
+            
             // Initialize all dropdowns
             const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
             dropdownElementList.map(function (dropdownToggleEl) {
